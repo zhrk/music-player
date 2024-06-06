@@ -1,0 +1,27 @@
+{
+  "name": "music-player",
+  "version": "1.0.0",
+  "author": "zhrk",
+  "description": "desc",
+  "main": "./electron/main.js",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder"
+  },
+  "devDependencies": {
+    "electron": "30.0.9",
+    "electron-builder": "24.13.3"
+  },
+  "build": {
+    "electronLanguages": [
+      "en_US"
+    ],
+    "files": [
+      "build",
+      "electron"
+    ],
+    "win": {
+      "target": "portable"
+    }
+  }
+}
