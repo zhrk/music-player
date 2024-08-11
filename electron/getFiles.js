@@ -6,7 +6,7 @@ async function getFiles(rootPath) {
   const files = dirTree(rootPath, {
     extensions: /\.mp3/,
     exclude: /.stfolder|\[OST\]|\[Архив\]|\[Яндекс.Музыка\]/,
-    attributes: ["type"],
+    attributes: ["path", "type"],
   });
 
   return files.children[0].children;
