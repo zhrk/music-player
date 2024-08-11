@@ -40,20 +40,47 @@
         height: calc(100dvh - var(--app-title-bar-height));
       }
 
-      .files {
+      .tree {
         display: flex;
         flex-direction: column;
         padding: 16px;
         padding-top: 0;
         box-sizing: border-box;
         font-size: 20px;
+        white-space: pre;
       }
     </style>
   </head>
   <body>
     <div id="root">
       <div class="titleBar"></div>
-      <div id="files" class="files"></div>
+      <div id="tree" class="tree"></div>
     </div>
   </body>
+  <script>
+    const initCSSVars = async () => {
+      let vars = await window.electron.initCSSVars();
+
+      vars = Object.entries(vars)
+        .map(([key, value]) => `${key}: ${value}`)
+        .join("; ");
+
+      const style = document.createElement("style");
+      style.textContent = `:root { ${vars} }`;
+      document.head.appendChild(style);
+    };
+
+    const getFiles = async () => {
+      const files = await window.electron.getFiles();
+
+      document.getElementById("tree").innerText = JSON.stringify(
+        files,
+        null,
+        2
+      );
+    };
+
+    initCSSVars();
+    getFiles();
+  </script>
 </html>

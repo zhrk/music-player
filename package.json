@@ -5,12 +5,16 @@
   "description": "desc",
   "main": "./electron/main.js",
   "scripts": {
-    "start": "electron .",
+    "start": "electronmon .",
     "build": "electron-builder"
+  },
+  "dependencies": {
+    "directory-tree": "3.5.2"
   },
   "devDependencies": {
     "electron": "30.0.9",
-    "electron-builder": "24.13.3"
+    "electron-builder": "24.13.3",
+    "electronmon": "2.0.3"
   },
   "build": {
     "electronLanguages": [

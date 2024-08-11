@@ -1,4 +1,4 @@
-const { app, BrowserWindow } = require("electron/main");
+const { app, BrowserWindow, ipcMain } = require("electron/main");
 const path = require("node:path");
 const getFiles = require("./getFiles");
 
@@ -68,21 +68,22 @@ if (!gotTheLock) {
     win.loadFile(path.join(__dirname, "../index.html"));
     win.removeMenu();
 
-    if (isDev) {
-      win.webContents.openDevTools();
-    }
+    // if (isDev) {
+    //   win.webContents.openDevTools();
+    // }
 
     // win.hide();
     // win.maximize();
     // win.show();
     // win.webContents.openDevTools();
 
-    const files = getFiles(app.getPath("music"));
-
-    win.webContents.send("initCssVars", {
+    handleInitCSSVars = () => ({
       ["--app-title-bar-height"]: `${TITLE_BAR_HEIGHT}px`,
     });
 
-    win.webContents.send("getFiles", files.join("\n"));
+    handleGetFiles = async () => await getFiles(app.getPath("music"));
+
+    ipcMain.handle("getFiles", handleGetFiles);
+    ipcMain.handle("initCSSVars", handleInitCSSVars);
   });
 }

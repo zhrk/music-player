@@ -1,27 +1,15 @@
-const path = require("node:path");
 const fs = require("node:fs");
+const path = require("node:path");
+const dirTree = require("directory-tree");
 
-const getFiles = (dirPath) => {
-  const ignoredFolders = [".stfolder", "[OST]", "[Архив]", "[Яндекс.Музыка]"];
-
-  let files = fs.readdirSync(dirPath, {
-    withFileTypes: true,
-    encoding: "utf-8",
+async function getFiles(rootPath) {
+  const files = dirTree(rootPath, {
+    extensions: /\.mp3/,
+    exclude: /.stfolder|\[OST\]|\[Архив\]|\[Яндекс.Музыка\]/,
+    attributes: ["type"],
   });
 
-  files = files.filter((item) => !ignoredFolders.includes(item.name));
-
-  files = files.flatMap((item) => {
-    if (item.isDirectory()) {
-      return getFiles(path.join(dirPath, item.name));
-    }
-
-    if (item.name.endsWith(".mp3")) return item.name;
-
-    return [];
-  });
-
-  return files;
-};
+  return files.children[0].children;
+}
 
 module.exports = getFiles;
