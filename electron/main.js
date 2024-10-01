@@ -65,7 +65,7 @@ if (!gotTheLock) {
     //   win.loadFile(path.join(__dirname, "../build/index.html"));
     // }
 
-    win.loadFile(path.join(__dirname, "../index.html"));
+    win.loadFile(path.join(__dirname, "../src/index.html"));
     win.removeMenu();
 
     // if (isDev) {
@@ -83,7 +83,7 @@ if (!gotTheLock) {
 
     handleGetFiles = async () => await getFiles(app.getPath("music"));
 
-    ipcMain.handle("getFiles", handleGetFiles);
     ipcMain.handle("initCSSVars", handleInitCSSVars);
+    ipcMain.handle("getFiles", handleGetFiles);
   });
 }
