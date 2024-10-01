@@ -1,5 +1,3 @@
-const fs = require("node:fs");
-const path = require("node:path");
 const dirTree = require("directory-tree");
 
 async function getFiles(rootPath) {
