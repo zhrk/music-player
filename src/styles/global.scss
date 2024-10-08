@@ -1,0 +1,18 @@
+html {
+  color-scheme: dark;
+}
+
+body {
+  margin: 0;
+  color: #fff;
+  font-family: sans-serif;
+  font-size: 14px;
+  overflow-y: hidden;
+}
+
+#root {
+  position: relative;
+  margin-top: var(--app-title-bar-height);
+  overflow-y: auto;
+  height: calc(100dvh - var(--app-title-bar-height));
+}

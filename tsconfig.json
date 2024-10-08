@@ -1,0 +1,4 @@
+{
+  "extends": "@zhrk/pack/tsconfig.json",
+  "include": ["src"]
+}

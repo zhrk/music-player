@@ -1,0 +1,24 @@
+.titleBar {
+  position: absolute;
+  top: calc(var(--app-title-bar-height) * -1);
+  right: 0;
+  left: 0;
+  height: var(--app-title-bar-height);
+  -webkit-app-region: drag;
+}
+
+.tree {
+  padding: 16px;
+  padding-top: 0;
+  display: flex;
+  flex-direction: column;
+  row-gap: 16px;
+  box-sizing: border-box;
+  font-size: 20px;
+  white-space: pre;
+  overflow: hidden;
+}
+
+.children {
+  padding-left: 16px;
+}
