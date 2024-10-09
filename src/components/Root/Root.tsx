@@ -9,8 +9,14 @@ const Item = (props: { data: Files[number] }) => {
 
   return (
     <div className={styles.children}>
-      <button type="button">{name}</button>
-      {type === 'file' ? null : children.map((item) => <Item data={item} />)}
+      {type === 'file' ? (
+        <button type="button" onClick={() => console.log(data)}>
+          {name}
+        </button>
+      ) : (
+        name
+      )}
+      {type === 'file' ? null : children.map((item) => <Item key={item.name} data={item} />)}
     </div>
   );
 };

@@ -55,19 +55,12 @@ if (!gotTheLock) {
       },
     });
 
-    // if (isDev) {
-    //   win.loadURL(`http://localhost:3000`);
-    // } else {
-    //   win.loadFile(path.join(__dirname, "../build/index.html"));
-    // }
-
-    // win.loadFile(path.join(__dirname, '../src/index.html'));
     win.loadURL(`http://localhost:3000`);
     win.removeMenu();
 
-    // if (isDev) {
-    //   win.webContents.openDevTools();
-    // }
+    if (isDev) {
+      win.webContents.openDevTools();
+    }
 
     // win.hide();
     // win.maximize();

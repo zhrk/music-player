@@ -14,13 +14,18 @@
   flex-direction: column;
   row-gap: 16px;
   box-sizing: border-box;
+  font-size: 20px;
   overflow: hidden;
 }
 
 .children {
-  padding-left: 16px;
+  & .children {
+    padding-left: 16px;
+  }
 
   & > button {
-    font-size: 20px;
+    &:hover {
+      color: #999;
+    }
   }
 }
