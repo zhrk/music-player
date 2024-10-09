@@ -14,11 +14,13 @@
   flex-direction: column;
   row-gap: 16px;
   box-sizing: border-box;
-  font-size: 20px;
-  white-space: pre;
   overflow: hidden;
 }
 
 .children {
   padding-left: 16px;
+
+  & > button {
+    font-size: 20px;
+  }
 }

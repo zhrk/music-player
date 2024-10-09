@@ -9,7 +9,7 @@ const Item = (props: { data: Files[number] }) => {
 
   return (
     <div className={styles.children}>
-      {name}
+      <button type="button">{name}</button>
       {type === 'file' ? null : children.map((item) => <Item data={item} />)}
     </div>
   );

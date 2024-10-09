@@ -7,7 +7,6 @@ body {
   color: #fff;
   font-family: sans-serif;
   font-size: 14px;
-  overflow-y: hidden;
 }
 
 #root {
@@ -15,4 +14,9 @@ body {
   margin-top: var(--app-title-bar-height);
   overflow-y: auto;
   height: calc(100dvh - var(--app-title-bar-height));
+}
+
+button {
+  all: unset;
+  cursor: pointer;
 }
