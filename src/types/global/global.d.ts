@@ -1,6 +1,6 @@
 type Files = {
   name: string;
-  path: string | undefined;
+  path: string;
   type: 'file' | 'directory';
   children: Files;
 }[];

@@ -9,7 +9,7 @@
     "build": "electron-builder"
   },
   "dependencies": {
-    "directory-tree": "3.5.2",
+    "dree": "5.1.5",
     "react": "18.3.1",
     "react-dom": "18.3.1"
   },

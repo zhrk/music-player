@@ -1,12 +1,15 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 
-const dirTree = require('directory-tree');
+const dree = require('dree');
 
 async function getFiles(rootPath) {
-  const files = dirTree(rootPath, {
-    extensions: /\.mp3/,
+  const files = dree.scan(rootPath, {
+    extensions: ['mp3'],
     exclude: /.stfolder|\[OST\]|\[Архив\]|\[Яндекс.Музыка\]/,
-    attributes: ['path', 'type'],
+    symbolicLinks: false,
+    hash: false,
+    showHidden: false,
+    stat: true,
   });
 
   return files.children[1].children;
