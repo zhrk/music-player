@@ -6,26 +6,3 @@
   height: var(--app-title-bar-height);
   -webkit-app-region: drag;
 }
-
-.tree {
-  padding: 16px;
-  padding-top: 0;
-  display: flex;
-  flex-direction: column;
-  row-gap: 16px;
-  box-sizing: border-box;
-  font-size: 20px;
-  overflow: hidden;
-}
-
-.children {
-  & .children {
-    padding-left: 16px;
-  }
-
-  & > button {
-    &:hover {
-      color: #999;
-    }
-  }
-}

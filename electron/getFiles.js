@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
+/* eslint-disable @typescript-eslint/no-require-imports */
 
 const dree = require('dree');
 
@@ -12,7 +12,7 @@ async function getFiles(rootPath) {
     stat: true,
   });
 
-  return files.children[1].children;
+  return files.children[0].children;
 }
 
 module.exports = getFiles;
