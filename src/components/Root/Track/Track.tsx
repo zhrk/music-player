@@ -1,5 +1,5 @@
 import Files from '../../../types/files';
-import { usePlayerContext } from '../Player/PlayerContext';
+import { usePlayerStore } from '../Player/store';
 import styles from './styles.module.scss';
 
 const Track = (props: { data: Files[number] }) => {
@@ -7,7 +7,12 @@ const Track = (props: { data: Files[number] }) => {
 
   const { name, type, path, children } = data;
 
-  const { src, setSrc, playing, element } = usePlayerContext();
+  const { element, src, playing, setSrc } = usePlayerStore((state) => ({
+    element: state.element,
+    src: state.src,
+    playing: state.playing,
+    setSrc: state.setSrc,
+  }));
 
   return (
     <div className={styles.container}>

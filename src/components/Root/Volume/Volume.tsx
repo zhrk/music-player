@@ -1,18 +1,11 @@
-import { useEffect, useState } from 'react';
-import { usePlayerContext } from '../Player/PlayerContext';
-
-const DEFAULT_VOLUME = 0.01;
+import { usePlayerStore } from '../Player/store';
 
 export const Volume = () => {
-  const [volume, setVolume] = useState(DEFAULT_VOLUME);
-
-  const { element } = usePlayerContext();
-
-  useEffect(() => {
-    if (element) {
-      element.volume = DEFAULT_VOLUME;
-    }
-  }, [element]);
+  const { volume, setVolume, element } = usePlayerStore((state) => ({
+    volume: state.volume,
+    setVolume: state.setVolume,
+    element: state.element,
+  }));
 
   return (
     <>

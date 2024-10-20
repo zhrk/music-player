@@ -1,33 +1,39 @@
 /* eslint-disable jsx-a11y/media-has-caption */
 
-import { useState, useCallback } from 'react';
+import { useCallback } from 'react';
 import encodePath from '../../../utils/encodePath';
 import { Track } from '../Track';
 import { Volume } from '../Volume';
 import { useFiles } from './hooks';
-import { PlayerProvider } from './PlayerContext';
+import { usePlayerStore } from './store';
 import styles from './styles.module.scss';
-import { Element, Playing, Src } from './types';
 
 export const Player = () => {
   const { files } = useFiles();
 
-  const [src, setSrc] = useState<Src>(null);
-  const [playing, setPlaying] = useState<Playing>(false);
+  const { element, src, playing, setElement, setPlaying } = usePlayerStore((state) => ({
+    element: state.element,
+    src: state.src,
+    playing: state.playing,
+    setElement: state.setElement,
+    setPlaying: state.setPlaying,
+  }));
 
-  const [element, setElement] = useState<Element>(null);
-
-  const callbackRef = useCallback((node: HTMLAudioElement) => {
-    if (node) setElement(node);
-  }, []);
+  const callbackRef = useCallback(
+    (node: HTMLAudioElement) => {
+      if (node) setElement(node);
+    },
+    [setElement]
+  );
 
   return (
-    <PlayerProvider element={element} playing={playing} src={src} setSrc={setSrc}>
+    <>
       <audio
         ref={callbackRef}
         onPlay={() => setPlaying(true)}
         onPause={() => setPlaying(false)}
         onCanPlay={(event) => event.currentTarget.play()}
+        onTimeUpdate={(event) => console.log(event.currentTarget.currentTime)}
         {...(src && { src: `file:///${encodePath(src)}` })}
       />
       <div className={styles.container}>
@@ -57,6 +63,6 @@ export const Player = () => {
           <Volume />
         </div>
       </div>
-    </PlayerProvider>
+    </>
   );
 };
