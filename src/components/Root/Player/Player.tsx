@@ -3,12 +3,13 @@
 import { useState, useCallback } from 'react';
 import encodePath from '../../../utils/encodePath';
 import { Track } from '../Track';
+import { Volume } from '../Volume';
 import { useFiles } from './hooks';
 import { PlayerProvider } from './PlayerContext';
 import styles from './styles.module.scss';
 import { Element, Playing, Src } from './types';
 
-const Player = () => {
+export const Player = () => {
   const { files } = useFiles();
 
   const [src, setSrc] = useState<Src>(null);
@@ -17,10 +18,7 @@ const Player = () => {
   const [element, setElement] = useState<Element>(null);
 
   const callbackRef = useCallback((node: HTMLAudioElement) => {
-    if (node) {
-      node.volume = 0.01;
-      setElement(node);
-    }
+    if (node) setElement(node);
   }, []);
 
   return (
@@ -42,6 +40,7 @@ const Player = () => {
         <div className={styles.controls}>
           <button
             type="button"
+            disabled={!src}
             onClick={() => {
               if (playing) {
                 element?.pause();
@@ -55,10 +54,9 @@ const Player = () => {
           <button type="button">⏮️</button>
           <button type="button">⏭️</button>
           {src}
+          <Volume />
         </div>
       </div>
     </PlayerProvider>
   );
 };
-
-export { Player };

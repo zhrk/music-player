@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { Player } from './Player';
 import styles from './styles.module.scss';
 
-const Root = () => {
+export const Root = () => {
   useEffect(() => {
     const initCSSVars = async () => {
       let vars = await window.electron.initCSSVars();
@@ -26,5 +26,3 @@ const Root = () => {
     </>
   );
 };
-
-export { Root };
