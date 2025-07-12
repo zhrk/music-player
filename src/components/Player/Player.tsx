@@ -56,10 +56,12 @@ export const Player = () => {
             type="button"
             disabled={!src}
             onClick={() => {
-              if (playing) {
-                element?.pause();
-              } else {
-                element?.play();
+              if (element) {
+                if (playing) {
+                  element.pause();
+                } else {
+                  element.play();
+                }
               }
             }}
           >

@@ -21,10 +21,12 @@ const Track = (props: { data: Files[number] }) => {
           type="button"
           onClick={() => {
             if (path === src) {
-              if (playing) {
-                element?.pause();
-              } else {
-                element?.play();
+              if (element) {
+                if (playing) {
+                  element.pause();
+                } else {
+                  element.play();
+                }
               }
             } else {
               setSrc(path);
