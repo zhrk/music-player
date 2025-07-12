@@ -18,6 +18,7 @@ interface State {
   setSrc: (payload: Src) => void;
   setVolume: (payload: Volume) => void;
   setProgress: (payload: Progress) => void;
+  setTotal: (payload: Progress) => void;
 }
 
 export const usePlayerStore = create<State>()((set, get) => ({
@@ -33,13 +34,8 @@ export const usePlayerStore = create<State>()((set, get) => ({
     set({ element: payload });
   },
   setPlaying: (payload) => set({ playing: payload }),
-  setSrc: (payload) => {
-    const { element } = get();
-
-    if (element) set({ total: Math.round(element.duration) });
-
-    set({ src: payload });
-  },
+  setSrc: (payload) => set({ src: payload }),
   setVolume: (payload) => set({ volume: payload }),
   setProgress: (payload) => set({ progress: payload }),
+  setTotal: (payload) => set({ total: payload }),
 }));

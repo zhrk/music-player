@@ -12,7 +12,7 @@ import styles from './styles.module.scss';
 export const Player = () => {
   const { files } = useFiles();
 
-  const { element, src, playing, setElement, setPlaying, setProgress } = usePlayerStore(
+  const { element, src, playing, setElement, setPlaying, setProgress, setTotal } = usePlayerStore(
     (state) => ({
       element: state.element,
       src: state.src,
@@ -20,6 +20,7 @@ export const Player = () => {
       setElement: state.setElement,
       setPlaying: state.setPlaying,
       setProgress: state.setProgress,
+      setTotal: state.setTotal,
     })
   );
 
@@ -40,6 +41,7 @@ export const Player = () => {
         onPause={() => setPlaying(false)}
         onCanPlay={(event) => event.currentTarget.play()}
         onTimeUpdate={(event) => setProgress(Math.floor(event.currentTarget.currentTime))}
+        onLoadedMetadata={(event) => setTotal(Math.floor(event.currentTarget.duration))}
         {...(src && { src: `file:///${encodePath(src)}` })}
       />
       <div className={styles.container}>
@@ -65,9 +67,10 @@ export const Player = () => {
           </button>
           <button type="button">⏮️</button>
           <button type="button">⏭️</button>
-          {src}
           <Volume />
           <Progress />
+          &nbsp; &nbsp;
+          {src}
         </div>
       </div>
     </>
