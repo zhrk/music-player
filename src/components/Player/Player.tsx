@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/media-has-caption */
 
 import { useCallback } from 'react';
-import encodePath from '../../../utils/encodePath';
+import encodePath from '../../utils/encodePath';
 import { Progress } from '../Progress';
 import { Track } from '../Track';
 import { Volume } from '../Volume';
@@ -12,12 +12,11 @@ import styles from './styles.module.scss';
 export const Player = () => {
   const { files } = useFiles();
 
-  const { element, src, playing, progress, setElement, setPlaying, setProgress } = usePlayerStore(
+  const { element, src, playing, setElement, setPlaying, setProgress } = usePlayerStore(
     (state) => ({
       element: state.element,
       src: state.src,
       playing: state.playing,
-      progress: state.progress,
       setElement: state.setElement,
       setPlaying: state.setPlaying,
       setProgress: state.setProgress,

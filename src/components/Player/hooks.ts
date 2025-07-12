@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import Files from '../../../types/files';
+import Files from '../../types/files';
 
 const useFiles = () => {
   const [files, setFiles] = useState<Files>([]);

@@ -1,4 +1,4 @@
-import Files from '../../../types/files';
+import Files from '../../types/files';
 import { usePlayerStore } from '../Player/store';
 import styles from './styles.module.scss';
 
