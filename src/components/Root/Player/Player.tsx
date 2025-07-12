@@ -2,6 +2,7 @@
 
 import { useCallback } from 'react';
 import encodePath from '../../../utils/encodePath';
+import { Progress } from '../Progress';
 import { Track } from '../Track';
 import { Volume } from '../Volume';
 import { useFiles } from './hooks';
@@ -11,13 +12,17 @@ import styles from './styles.module.scss';
 export const Player = () => {
   const { files } = useFiles();
 
-  const { element, src, playing, setElement, setPlaying } = usePlayerStore((state) => ({
-    element: state.element,
-    src: state.src,
-    playing: state.playing,
-    setElement: state.setElement,
-    setPlaying: state.setPlaying,
-  }));
+  const { element, src, playing, progress, setElement, setPlaying, setProgress } = usePlayerStore(
+    (state) => ({
+      element: state.element,
+      src: state.src,
+      playing: state.playing,
+      progress: state.progress,
+      setElement: state.setElement,
+      setPlaying: state.setPlaying,
+      setProgress: state.setProgress,
+    })
+  );
 
   const callbackRef = useCallback(
     (node: HTMLAudioElement) => {
@@ -26,6 +31,8 @@ export const Player = () => {
     [setElement]
   );
 
+  // https://www.electronjs.org/docs/latest/api/corner-smoothing-css
+
   return (
     <>
       <audio
@@ -33,7 +40,7 @@ export const Player = () => {
         onPlay={() => setPlaying(true)}
         onPause={() => setPlaying(false)}
         onCanPlay={(event) => event.currentTarget.play()}
-        onTimeUpdate={(event) => console.log(event.currentTarget.currentTime)}
+        onTimeUpdate={(event) => setProgress(Math.floor(event.currentTarget.currentTime))}
         {...(src && { src: `file:///${encodePath(src)}` })}
       />
       <div className={styles.container}>
@@ -61,6 +68,7 @@ export const Player = () => {
           <button type="button">⏭️</button>
           {src}
           <Volume />
+          <Progress />
         </div>
       </div>
     </>
