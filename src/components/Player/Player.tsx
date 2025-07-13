@@ -1,5 +1,3 @@
-/* eslint-disable jsx-a11y/media-has-caption */
-
 import { useCallback } from 'react';
 import encodePath from '../../utils/encodePath';
 import { Progress } from '../Progress';

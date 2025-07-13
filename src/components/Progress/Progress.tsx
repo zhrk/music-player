@@ -4,7 +4,7 @@ function formatDuration(seconds: number) {
   const minutes = Math.floor((seconds % 3600) / 60);
   const remainingSeconds = seconds % 60;
 
-  const s = remainingSeconds < 10 ? `0${remainingSeconds}` : `${remainingSeconds}`;
+  const s = remainingSeconds < 10 ? `0${remainingSeconds}` : String(remainingSeconds);
 
   return `${minutes}:${s}`;
 }
