@@ -2,7 +2,7 @@ import Files from '../../types/files';
 import { usePlayerStore } from '../Player/store';
 import styles from './styles.module.scss';
 
-const Track = (props: { data: Files[number] }) => {
+const Track = (props: { data: Files['files'][number] }) => {
   const { data } = props;
 
   const { name, type, path, children } = data;

@@ -10,10 +10,10 @@ import { usePlayerStore } from './store';
 import styles from './styles.module.scss';
 
 export const Player = () => {
-  const { files } = useFiles();
+  const { files, flatFiles } = useFiles();
 
-  const { element, src, playing, setElement, setPlaying, setProgress, setTotal } = usePlayerStore(
-    (state) => ({
+  const { element, src, playing, setElement, setPlaying, setProgress, setTotal, setSrc } =
+    usePlayerStore((state) => ({
       element: state.element,
       src: state.src,
       playing: state.playing,
@@ -21,8 +21,8 @@ export const Player = () => {
       setPlaying: state.setPlaying,
       setProgress: state.setProgress,
       setTotal: state.setTotal,
-    })
-  );
+      setSrc: state.setSrc,
+    }));
 
   const callbackRef = useCallback(
     (node: HTMLAudioElement) => {
@@ -68,11 +68,16 @@ export const Player = () => {
             {playing ? '⏸️' : '▶️'}
           </button>
           <button type="button">⏮️</button>
-          <button type="button">⏭️</button>
+          <button
+            type="button"
+            onClick={() => {
+              setSrc(flatFiles[Math.floor(Math.random() * flatFiles.length)].path);
+            }}
+          >
+            ⏭️
+          </button>
           <Volume />
           <Progress />
-          &nbsp; &nbsp;
-          {src}
         </div>
       </div>
     </>

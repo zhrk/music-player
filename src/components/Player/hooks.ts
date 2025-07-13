@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import Files from '../../types/files';
 
 const useFiles = () => {
-  const [files, setFiles] = useState<Files>([]);
+  const [files, setFiles] = useState<Files>({ files: [], flatFiles: [] });
 
   const fired = useRef(false);
 
@@ -18,7 +18,7 @@ const useFiles = () => {
     }
   }, []);
 
-  return { files };
+  return files;
 };
 
 export { useFiles };

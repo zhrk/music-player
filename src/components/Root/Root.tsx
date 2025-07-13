@@ -1,9 +1,9 @@
 import { Player } from '../Player';
-import styles from './styles.module.scss';
+import { TitleBar } from '../TitleBar';
 
 export const Root = () => (
   <>
-    <div className={styles.titleBar} />
+    <TitleBar />
     <Player />
   </>
 );

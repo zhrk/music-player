@@ -10,9 +10,8 @@ body {
 
 #root {
   position: relative;
-  margin-top: var(--app-title-bar-height);
   overflow-y: auto;
-  height: calc(100dvh - var(--app-title-bar-height));
+  height: 100dvh;
 }
 
 button {

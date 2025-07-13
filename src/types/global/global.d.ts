@@ -8,7 +8,7 @@ type Files = {
 interface Window {
   electron: {
     initCSSVars: () => string;
-    getFiles: () => Files;
+    getFiles: () => { files: Files; flatFiles: Files };
   };
 }
 

@@ -3,16 +3,25 @@
 const dree = require('dree');
 
 async function getFiles(rootPath) {
-  const files = dree.scan(rootPath, {
-    extensions: ['mp3'],
-    exclude: /.stfolder|\[Архив\]|\[Яндекс.Музыка\]/,
-    symbolicLinks: false,
-    hash: false,
-    showHidden: false,
-    stat: true,
-  });
+  const flatFiles = [];
 
-  return files.children[0].children;
+  const files = dree.scan(
+    rootPath,
+    {
+      extensions: ['mp3'],
+      exclude: /.stfolder|\[Архив\]|\[Яндекс.Музыка\]/,
+      symbolicLinks: false,
+      hash: false,
+      showHidden: false,
+      stat: true,
+    },
+    (file) => flatFiles.push(file)
+  );
+
+  return {
+    files: files.children[0].children,
+    flatFiles,
+  };
 }
 
 module.exports = getFiles;

@@ -1,8 +1,0 @@
-.titleBar {
-  position: absolute;
-  top: calc(var(--app-title-bar-height) * -1);
-  right: 0;
-  left: 0;
-  height: var(--app-title-bar-height);
-  -webkit-app-region: drag;
-}
