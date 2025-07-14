@@ -5,7 +5,7 @@
   "description": "desc",
   "main": "./electron/main.js",
   "scripts": {
-    "start": "concurrently \"zhrk-scripts start --no-open\" \"electronmon .\"",
+    "start": "concurrently \"zhrk-scripts start --no-open --port 4444\" \"electronmon .\"",
     "build": "electron-builder",
     "upgrade": "npx npm-check --update --save-exact"
   },

@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-require-imports */
-
 const path = require('node:path');
 const { app, BrowserWindow, ipcMain } = require('electron');
 const getFiles = require('./getFiles');
@@ -8,7 +6,11 @@ const protocol = app.name;
 const isDev = !app.isPackaged;
 const gotTheLock = app.requestSingleInstanceLock();
 
-const electronFilesPath = path.join(process.cwd(), `${isDev ? 'node_modules' : ''}`, '.electron');
+const electronFilesPath = path.join(
+  process.cwd(),
+  String(isDev ? 'node_modules' : ''),
+  '.electron'
+);
 
 app.setPath('appData', electronFilesPath);
 app.setPath('logs', electronFilesPath);
@@ -37,7 +39,7 @@ if (!gotTheLock) {
     }
   });
 
-  app.whenReady().then(async () => {
+  app.whenReady().then(() => {
     win = new BrowserWindow({
       width: 1024,
       height: 800,
@@ -55,7 +57,7 @@ if (!gotTheLock) {
       },
     });
 
-    win.loadURL(`http://localhost:3000`);
+    win.loadURL(`http://localhost:4444`);
     win.removeMenu();
 
     if (isDev) {
