@@ -4,6 +4,10 @@
   }
 
   & > button {
+    &.active {
+      color: var(--blue);
+    }
+
     &:hover {
       color: #999;
     }

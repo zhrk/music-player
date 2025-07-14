@@ -18,6 +18,12 @@ const Track = (props: { data: Files['files'][number] }) => {
     <div className={styles.container}>
       {type === 'file' ? (
         <button
+          ref={(node) => {
+            if (node && path === src) {
+              node.scrollIntoView({ block: 'center' });
+            }
+          }}
+          {...(path === src && { className: styles.active })}
           type="button"
           onClick={() => {
             if (path === src) {
