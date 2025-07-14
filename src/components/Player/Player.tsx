@@ -31,10 +31,13 @@ export const Player = () => {
 
   // https://www.electronjs.org/docs/latest/api/corner-smoothing-css
 
+  const nextTrack = () => setSrc(flatFiles[Math.floor(Math.random() * flatFiles.length)].path);
+
   return (
     <>
       <audio
         ref={callbackRef}
+        onEnded={() => nextTrack()}
         onPlay={() => setPlaying(true)}
         onPause={() => setPlaying(false)}
         onCanPlay={(event) => event.currentTarget.play()}
@@ -50,32 +53,29 @@ export const Player = () => {
           ))}
         </div>
         <div className={styles.controls}>
-          <button
-            type="button"
-            disabled={!src}
-            onClick={() => {
-              if (element) {
-                if (playing) {
-                  element.pause();
-                } else {
-                  element.play();
+          <div>
+            <button
+              type="button"
+              disabled={!src}
+              onClick={() => {
+                if (element) {
+                  if (playing) {
+                    element.pause();
+                  } else {
+                    element.play();
+                  }
                 }
-              }
-            }}
-          >
-            {playing ? '⏸️' : '▶️'}
-          </button>
-          <button type="button">⏮️</button>
-          <button
-            type="button"
-            onClick={() => {
-              setSrc(flatFiles[Math.floor(Math.random() * flatFiles.length)].path);
-            }}
-          >
-            ⏭️
-          </button>
-          <Volume />
+              }}
+            >
+              {playing ? '⏸️' : '▶️'}
+            </button>
+            <button type="button">⏮️</button>
+            <button type="button" onClick={() => nextTrack()}>
+              ⏭️
+            </button>
+          </div>
           <Progress />
+          <Volume />
         </div>
       </div>
     </>

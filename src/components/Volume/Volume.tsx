@@ -1,4 +1,5 @@
 import { usePlayerStore } from '../Player/store';
+import styles from './styles.module.scss';
 
 export const Volume = () => {
   const { volume, setVolume, element } = usePlayerStore((state) => ({
@@ -15,6 +16,7 @@ export const Volume = () => {
         max={1}
         step={0.01}
         value={volume}
+        className={styles.volume}
         onChange={(event) => {
           const value = Number(event.target.value);
 

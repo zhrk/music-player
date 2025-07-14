@@ -1,4 +1,5 @@
 import { usePlayerStore } from '../Player/store';
+import styles from './styles.module.scss';
 
 function formatDuration(seconds: number) {
   const minutes = Math.floor((seconds % 3600) / 60);
@@ -17,20 +18,21 @@ export const Progress = () => {
   }));
 
   return (
-    <>
+    <div className={styles.container}>
       <input
         type="range"
         min={0}
-        max={100}
+        max={total}
         step={1}
         value={progress}
+        className={styles.progress}
         onChange={(event) => {
           if (element) {
-            element.currentTime = Math.floor(element.duration / 100) * Number(event.target.value);
+            element.currentTime = Number(event.target.value);
           }
         }}
       />
       {`${formatDuration(progress)} / ${formatDuration(total)}`}
-    </>
+    </div>
   );
 };
