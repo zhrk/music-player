@@ -54,25 +54,36 @@ export const Player = () => {
         </div>
         <div className={styles.controls}>
           <div>
-            <button
-              type="button"
-              disabled={!src}
-              onClick={() => {
-                if (element) {
-                  if (playing) {
-                    element.pause();
-                  } else {
-                    element.play();
+            <div
+              key={src}
+              className={styles.cover}
+              {...(src && {
+                style: {
+                  backgroundImage: `url(http://localhost:4445/cover/${encodeURIComponent(src)})`,
+                },
+              })}
+            />
+            <div className={styles.buttons}>
+              <button
+                type="button"
+                disabled={!src}
+                onClick={() => {
+                  if (element) {
+                    if (playing) {
+                      element.pause();
+                    } else {
+                      element.play();
+                    }
                   }
-                }
-              }}
-            >
-              {playing ? '⏸️' : '▶️'}
-            </button>
-            <button type="button">⏮️</button>
-            <button type="button" onClick={() => nextTrack()}>
-              ⏭️
-            </button>
+                }}
+              >
+                {playing ? '⏸️' : '▶️'}
+              </button>
+              <button type="button">⏮️</button>
+              <button type="button" onClick={() => nextTrack()}>
+                ⏭️
+              </button>
+            </div>
           </div>
           <Progress />
           <Volume />

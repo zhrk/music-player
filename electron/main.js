@@ -1,6 +1,7 @@
 const path = require('node:path');
 const { app, BrowserWindow, ipcMain } = require('electron');
 const getFiles = require('./getFiles');
+require('./server');
 
 const protocol = app.name;
 const isDev = !app.isPackaged;
