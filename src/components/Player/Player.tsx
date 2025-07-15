@@ -1,9 +1,8 @@
 import { useCallback } from 'react';
 import { useFilesStore } from '../../stores/files';
 import encodePath from '../../utils/encodePath';
-import { Progress } from '../Progress';
+import { Controls } from '../Controls';
 import { Track } from '../Track';
-import { Volume } from '../Volume';
 import { usePlayerStore } from './store';
 import styles from './styles.module.scss';
 
@@ -13,17 +12,16 @@ export const Player = () => {
     flatFiles: state.flatFiles,
   }));
 
-  const { element, src, playing, setElement, setPlaying, setProgress, setTotal, setSrc } =
-    usePlayerStore((state) => ({
-      element: state.element,
+  const { src, setElement, setPlaying, setProgress, setTotal, setSrc } = usePlayerStore(
+    (state) => ({
       src: state.src,
-      playing: state.playing,
       setElement: state.setElement,
       setPlaying: state.setPlaying,
       setProgress: state.setProgress,
       setTotal: state.setTotal,
       setSrc: state.setSrc,
-    }));
+    })
+  );
 
   const callbackRef = useCallback(
     (node: HTMLAudioElement) => {
@@ -52,42 +50,7 @@ export const Player = () => {
             <Track key={item.name} data={item} />
           ))}
         </div>
-        <div className={styles.controls}>
-          <div>
-            <div
-              key={src}
-              className={styles.cover}
-              {...(src && {
-                style: {
-                  backgroundImage: `url(http://localhost:4445/cover/${encodeURIComponent(src)})`,
-                },
-              })}
-            />
-            <div className={styles.buttons}>
-              <button
-                type="button"
-                disabled={!src}
-                onClick={() => {
-                  if (element) {
-                    if (playing) {
-                      element.pause();
-                    } else {
-                      element.play();
-                    }
-                  }
-                }}
-              >
-                {playing ? '⏸️' : '▶️'}
-              </button>
-              <button type="button">⏮️</button>
-              <button type="button" onClick={() => nextTrack()}>
-                ⏭️
-              </button>
-            </div>
-          </div>
-          <Progress />
-          <Volume />
-        </div>
+        <Controls />
       </div>
     </>
   );
