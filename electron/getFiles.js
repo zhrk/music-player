@@ -1,8 +1,6 @@
-/* eslint-disable @typescript-eslint/no-require-imports */
-
 const dree = require('dree');
 
-async function getFiles(rootPath) {
+const getFiles = (rootPath) => {
   const flatFiles = [];
 
   const files = dree.scan(
@@ -19,9 +17,10 @@ async function getFiles(rootPath) {
   );
 
   return {
-    files: files.children[0].children,
     flatFiles,
+    rootPath: files.children[0].path,
+    files: files.children[0].children,
   };
-}
+};
 
 module.exports = getFiles;

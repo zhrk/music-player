@@ -1,3 +1,3 @@
-type Files = ReturnType<typeof window.electron.getFiles>;
+type Files = Awaited<ReturnType<typeof window.electron.getFiles>>;
 
 export default Files;

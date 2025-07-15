@@ -1,14 +1,17 @@
 import { useCallback } from 'react';
+import { useFilesStore } from '../../stores/files';
 import encodePath from '../../utils/encodePath';
 import { Progress } from '../Progress';
 import { Track } from '../Track';
 import { Volume } from '../Volume';
-import { useFiles } from './hooks';
 import { usePlayerStore } from './store';
 import styles from './styles.module.scss';
 
 export const Player = () => {
-  const { files, flatFiles } = useFiles();
+  const { files, flatFiles } = useFilesStore((state) => ({
+    files: state.files,
+    flatFiles: state.flatFiles,
+  }));
 
   const { element, src, playing, setElement, setPlaying, setProgress, setTotal, setSrc } =
     usePlayerStore((state) => ({
@@ -29,8 +32,6 @@ export const Player = () => {
     [setElement]
   );
 
-  // https://www.electronjs.org/docs/latest/api/corner-smoothing-css
-
   const nextTrack = () => setSrc(flatFiles[Math.floor(Math.random() * flatFiles.length)].path);
 
   return (
@@ -47,7 +48,6 @@ export const Player = () => {
       />
       <div className={styles.container}>
         <div className={styles.tree}>
-          {/* {JSON.stringify(files, null, 2)} */}
           {files.map((item) => (
             <Track key={item.name} data={item} />
           ))}

@@ -1,6 +1,4 @@
-/* eslint-disable @typescript-eslint/no-require-imports */
-
-const { ipcRenderer, contextBridge } = require('electron');
+const { contextBridge, ipcRenderer } = require('electron');
 
 contextBridge.exposeInMainWorld('electron', {
   initCSSVars: () => ipcRenderer.invoke('initCSSVars'),
