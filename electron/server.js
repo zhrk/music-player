@@ -1,6 +1,9 @@
 const { serve } = require('@hono/node-server');
 const { Hono } = require('hono');
 const musicMetadata = require('music-metadata');
+const { readFileSync } = require('original-fs');
+
+const emptyCover = readFileSync('./electron/emptyCover.png');
 
 const config = { headers: { 'Content-Type': 'image/jpeg' } };
 
@@ -13,7 +16,11 @@ app.get('/cover/:path', async (c) => {
 
   const picture = metadata.common.picture;
 
-  if (!picture) return c.body(null, 204);
+  if (!picture) {
+    return new Response(emptyCover, {
+      headers: { 'Content-Type': 'image/png', 'Content-Length': emptyCover.length.toString() },
+    });
+  }
 
   return new Response(picture[0].data, config);
 });
