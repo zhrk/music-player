@@ -1,3 +1,4 @@
+import usePrevious from '../../hooks/usePrevious';
 import Files from '../../types/files';
 import { usePlayerStore } from '../Player/store';
 import styles from './styles.module.scss';
@@ -14,12 +15,14 @@ const Track = (props: { data: Files['files'][number] }) => {
     setSrc: state.setSrc,
   }));
 
+  const prevSrc = usePrevious(src);
+
   return (
     <div className={styles.container}>
       {type === 'file' ? (
         <button
           ref={(node) => {
-            if (node && path === src) {
+            if (node && src !== prevSrc && path === src) {
               node.scrollIntoView({ block: 'center' });
             }
           }}
