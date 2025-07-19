@@ -1,5 +1,5 @@
 import { useFilesStore } from '../../stores/files';
-import { usePlayerStore } from '../Player/store';
+import { usePlayerStore } from '../../stores/player';
 import styles from './styles.module.scss';
 
 export const TitleBar = () => {

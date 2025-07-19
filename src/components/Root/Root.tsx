@@ -1,9 +1,9 @@
-import { Player } from '../Player';
+import { App } from '../App';
 import { TitleBar } from '../TitleBar';
 
 export const Root = () => (
   <>
     <TitleBar />
-    <Player />
+    <App />
   </>
 );

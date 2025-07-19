@@ -1,9 +1,9 @@
 import usePrevious from '../../hooks/usePrevious';
+import { usePlayerStore } from '../../stores/player';
 import Files from '../../types/files';
-import { usePlayerStore } from '../Player/store';
 import styles from './styles.module.scss';
 
-const Track = (props: { data: Files['files'][number] }) => {
+export const Track = (props: { data: Files['files'][number] }) => {
   const { data } = props;
 
   const { name, type, path, children } = data;
@@ -51,5 +51,3 @@ const Track = (props: { data: Files['files'][number] }) => {
     </div>
   );
 };
-
-export { Track };
