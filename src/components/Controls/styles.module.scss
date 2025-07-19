@@ -1,5 +1,5 @@
 .container {
-  padding: 0 16px;
+  padding-right: 16px;
   display: flex;
   align-items: center;
   box-sizing: border-box;
@@ -11,17 +11,20 @@
 }
 
 .cover {
-  width: 64px;
-  height: 64px;
-  flex-shrink: 0;
-  background-size: cover;
-  background-repeat: no-repeat;
+  width: 80px;
+  height: 80px;
   background-color: #161616;
-  background-position: center;
+  overflow: hidden;
+
+  & > img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
 }
 
 .buttons {
-  margin-left: 16px;
+  margin-left: 8px;
   display: flex;
   column-gap: 4px;
 

@@ -4,8 +4,6 @@ const musicMetadata = require('music-metadata');
 
 const config = { headers: { 'Content-Type': 'image/jpeg' } };
 
-const placeholder = new Response(Buffer.from([]), config);
-
 const app = new Hono({ port: 4445 });
 
 app.get('/cover/:path', async (c) => {
@@ -15,7 +13,7 @@ app.get('/cover/:path', async (c) => {
 
   const picture = metadata.common.picture;
 
-  if (!picture) return placeholder;
+  if (!picture) return c.body(null, 204);
 
   return new Response(picture[0].data, config);
 });
