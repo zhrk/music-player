@@ -7,15 +7,6 @@ const protocol = app.name;
 const isDev = !app.isPackaged;
 const gotTheLock = app.requestSingleInstanceLock();
 
-const electronFilesPath = path.join(
-  process.cwd(),
-  String(isDev ? 'node_modules' : ''),
-  '.electron'
-);
-
-app.setPath('appData', electronFilesPath);
-app.setPath('logs', electronFilesPath);
-
 if (process.defaultApp) {
   if (process.argv.length >= 2) {
     app.setAsDefaultProtocolClient(protocol, process.execPath, [path.resolve(process.argv[1])]);
