@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@hono/node-server": "1.16.0",
+    "clsx": "2.1.1",
     "dree": "5.1.5",
     "hono": "4.8.5",
     "music-metadata": "11.6.1",

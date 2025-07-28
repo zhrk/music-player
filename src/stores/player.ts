@@ -27,7 +27,7 @@ export const usePlayerStore = create<State>()(
     element: null,
     src: null,
     playing: false,
-    volume: 0.01,
+    volume: 0.05,
     progress: 0,
     total: 0,
     setElement: (payload) => {
