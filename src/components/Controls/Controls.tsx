@@ -7,6 +7,7 @@ import { useFilesStore } from '../../stores/files';
 import { usePlayerStore } from '../../stores/player';
 import encodePath from '../../utils/encodePath';
 import { Progress } from '../Progress';
+import { TrackCover } from '../TrackCover';
 import { Volume } from '../Volume';
 import styles from './styles.module.scss';
 
@@ -48,9 +49,7 @@ export const Controls = () => {
       />
       <div className={styles.container}>
         <div>
-          <div className={styles.cover}>
-            {src && <img alt="" src={`http://localhost:4445/cover/${encodeURIComponent(src)}`} />}
-          </div>
+          <TrackCover />
           <div className={styles.buttons}>
             <button type="button">
               <SkipPreviousIcon />
