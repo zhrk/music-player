@@ -1,27 +1,33 @@
-import { FastAverageColor } from 'fast-average-color';
-import { useState } from 'react';
+import clsx from 'clsx';
+import { createPortal } from 'react-dom';
+import { useAppStore } from '../../stores/app';
 import { usePlayerStore } from '../../stores/player';
+import { Fullscreen } from '../Fullscreen';
 import styles from './styles.module.scss';
 
-const fac = new FastAverageColor();
-
 export const TrackCover = () => {
-  const [color, setColor] = useState<string | null>(null);
   const { src } = usePlayerStore((state) => ({ src: state.src }));
 
-  return (
-    <div className={styles.container} {...(color && { style: { backgroundColor: color } })}>
-      {src && (
-        <img
-          alt=""
-          src={`http://localhost:4445/cover/${encodeURIComponent(src)}`}
-          onLoad={(event) => {
-            const { hex } = fac.getColor(event.currentTarget, { algorithm: 'dominant' });
+  const { fullscreen, setFullscreen } = useAppStore((state) => ({
+    fullscreen: state.fullscreen,
+    setFullscreen: state.setFullscreen,
+  }));
 
-            setColor(hex);
-          }}
-        />
-      )}
-    </div>
+  return (
+    <>
+      {fullscreen && createPortal(<Fullscreen />, document.body)}
+      <button
+        type="button"
+        className={clsx(styles.container, fullscreen && styles.fullscreen)}
+        onClick={() => setFullscreen(!fullscreen)}
+      >
+        {src &&
+          (!fullscreen ? (
+            <img alt="" src={`http://localhost:4445/cover/${encodeURIComponent(src)}`} />
+          ) : (
+            'x'
+          ))}
+      </button>
+    </>
   );
 };

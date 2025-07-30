@@ -1,8 +1,10 @@
+import clsx from 'clsx';
 import { useCallback } from 'react';
 import PauseIcon from '../../static/icons/pause.svg';
 import PlayIcon from '../../static/icons/play.svg';
 import SkipNextIcon from '../../static/icons/skip-next.svg';
 import SkipPreviousIcon from '../../static/icons/skip-previous.svg';
+import { useAppStore } from '../../stores/app';
 import { useFilesStore } from '../../stores/files';
 import { usePlayerStore } from '../../stores/player';
 import encodePath from '../../utils/encodePath';
@@ -12,6 +14,7 @@ import { Volume } from '../Volume';
 import styles from './styles.module.scss';
 
 export const Controls = () => {
+  const { fullscreen } = useAppStore((state) => ({ fullscreen: state.fullscreen }));
   const { flatFiles } = useFilesStore((state) => ({ flatFiles: state.flatFiles }));
 
   const { src, element, playing, setPlaying, setElement, setProgress, setTotal, setSrc } =
@@ -47,7 +50,7 @@ export const Controls = () => {
         onLoadedMetadata={(event) => setTotal(Math.floor(event.currentTarget.duration))}
         {...(src && { src: `file:///${encodePath(src)}` })}
       />
-      <div className={styles.container}>
+      <div data-controls className={clsx(styles.container, fullscreen && styles.fullscreen)}>
         <div>
           <TrackCover />
           <div className={styles.buttons}>

@@ -10,6 +10,16 @@
   }
 }
 
+.container.fullscreen {
+  z-index: 1;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  opacity: 0;
+  transition: all 0.2s ease-in-out;
+}
+
 .buttons {
   margin-left: 8px;
   display: flex;
@@ -21,7 +31,6 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #161616;
     font-size: 16px;
     font-weight: bold;
 
@@ -32,7 +41,9 @@
     }
 
     &:hover {
-      background-color: #202020;
+      & > svg {
+        fill: var(--dark);
+      }
     }
   }
 }

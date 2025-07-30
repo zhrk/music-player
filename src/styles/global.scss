@@ -1,5 +1,10 @@
 :root {
+  --black: #000;
+
   --blue: #0078d4;
+  --dark: #121212;
+
+  --shadow-fullscreen: 0px 4px 12px color-opacity(var(--black), 0.1);
 }
 
 html {
@@ -10,6 +15,10 @@ body {
   margin: 0;
   font-family: sans-serif;
   font-size: 16px;
+
+  &:hover div[data-controls] {
+    opacity: 1;
+  }
 }
 
 #root {
@@ -21,4 +30,8 @@ body {
 button {
   all: unset;
   cursor: pointer;
+}
+
+input[type='range'] {
+  accent-color: var(--dark);
 }

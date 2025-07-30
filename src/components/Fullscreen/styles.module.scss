@@ -1,0 +1,21 @@
+.container {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  & > div {
+    width: 400px;
+    display: flex;
+    box-shadow: var(--shadow-fullscreen);
+    border-radius: 10px;
+    overflow: hidden;
+
+    & > img {
+      width: 100%;
+      height: auto;
+      object-fit: contain;
+    }
+  }
+}
