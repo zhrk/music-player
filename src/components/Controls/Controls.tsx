@@ -1,5 +1,6 @@
 import clsx from 'clsx';
 import { useCallback } from 'react';
+import usePrevious from '../../hooks/usePrevious';
 import PauseIcon from '../../static/icons/pause.svg';
 import PlayIcon from '../../static/icons/play.svg';
 import SkipNextIcon from '../../static/icons/skip-next.svg';
@@ -38,6 +39,8 @@ export const Controls = () => {
     [setElement]
   );
 
+  const prevSrc = usePrevious(src);
+
   const nextTrack = () => {
     const randomTrack = flatFiles[Math.floor(Math.random() * flatFiles.length)].path;
 
@@ -55,7 +58,7 @@ export const Controls = () => {
         onEnded={() => nextTrack()}
         onPlay={() => setPlaying(true)}
         onPause={() => setPlaying(false)}
-        onCanPlay={(event) => event.currentTarget.play()}
+        onCanPlay={(event) => src !== prevSrc && event.currentTarget.play()}
         onTimeUpdate={(event) => setProgress(Math.floor(event.currentTarget.currentTime))}
         onLoadedMetadata={(event) => setTotal(Math.floor(event.currentTarget.duration))}
         {...(src && { src: `file:///${encodePath(src)}` })}
