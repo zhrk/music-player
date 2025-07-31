@@ -8,7 +8,7 @@ export const TitleBar = () => {
 
   return (
     <div className={styles.container}>
-      {src?.replace(`${rootPath}\\`, '').replaceAll('\\', ' - ')}
+      {rootPath && src?.replace(`${rootPath}\\`, '').replaceAll('\\', ' - ')}
     </div>
   );
 };

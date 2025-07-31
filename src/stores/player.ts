@@ -26,7 +26,7 @@ interface State {
 export const usePlayerStore = create<State>()(
   (set, get) => ({
     element: null,
-    src: null,
+    src: usePlaylistStore.getState().played.at(-1) || null,
     playing: false,
     volume: 0.05,
     progress: 0,

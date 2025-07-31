@@ -1,4 +1,5 @@
 import { takeLast } from 'remeda';
+import { persist } from 'zustand/middleware';
 import { createWithEqualityFn as create } from 'zustand/traditional';
 import { shallow } from 'zustand/vanilla/shallow';
 
@@ -10,10 +11,13 @@ interface State {
 }
 
 export const usePlaylistStore = create<State>()(
-  (set) => ({
-    played: [],
-    addToPlayed: (payload) =>
-      set((state) => ({ played: takeLast([...state.played, payload], 100) })),
-  }),
+  persist(
+    (set) => ({
+      played: [],
+      addToPlayed: (payload) =>
+        set((state) => ({ played: takeLast([...state.played, payload], 100) })),
+    }),
+    { name: 'playlist' }
+  ),
   shallow
 );
