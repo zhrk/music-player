@@ -19,7 +19,10 @@ export const Fullscreen = () => {
           onLoad={(e) => {
             const averageColor = getAverageColor(e.currentTarget);
 
-            if (averageColor) setColor(averageColor);
+            if (averageColor) {
+              setColor(averageColor);
+              window.electron.setColor(averageColor);
+            }
           }}
         />
       </div>

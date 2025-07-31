@@ -73,5 +73,7 @@ if (!gotTheLock) {
 
     ipcMain.handle('initCSSVars', handleInitCSSVars);
     ipcMain.handle('getFiles', handleGetFiles);
+
+    ipcMain.on('change-color', (_, color) => win.setTitleBarOverlay({ color }));
   });
 }
