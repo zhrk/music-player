@@ -7,6 +7,7 @@ import SkipPreviousIcon from '../../static/icons/skip-previous.svg';
 import { useAppStore } from '../../stores/app';
 import { useFilesStore } from '../../stores/files';
 import { usePlayerStore } from '../../stores/player';
+import { usePlaylistStore } from '../../stores/playlist';
 import encodePath from '../../utils/encodePath';
 import { Progress } from '../Progress';
 import { TrackCover } from '../TrackCover';
@@ -14,6 +15,7 @@ import { Volume } from '../Volume';
 import styles from './styles.module.scss';
 
 export const Controls = () => {
+  const { played } = usePlaylistStore((state) => ({ played: state.played }));
   const { fullscreen } = useAppStore((state) => ({ fullscreen: state.fullscreen }));
   const { flatFiles } = useFilesStore((state) => ({ flatFiles: state.flatFiles }));
 
@@ -36,7 +38,15 @@ export const Controls = () => {
     [setElement]
   );
 
-  const nextTrack = () => setSrc(flatFiles[Math.floor(Math.random() * flatFiles.length)].path);
+  const nextTrack = () => {
+    const randomTrack = flatFiles[Math.floor(Math.random() * flatFiles.length)].path;
+
+    if (played.includes(randomTrack)) {
+      nextTrack();
+    } else {
+      setSrc(randomTrack);
+    }
+  };
 
   return (
     <>

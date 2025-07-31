@@ -1,5 +1,6 @@
 import { createWithEqualityFn as create } from 'zustand/traditional';
 import { shallow } from 'zustand/vanilla/shallow';
+import { usePlaylistStore } from './playlist';
 
 type Playing = boolean;
 type Src = string | null;
@@ -36,7 +37,11 @@ export const usePlayerStore = create<State>()(
       set({ element: payload });
     },
     setPlaying: (payload) => set({ playing: payload }),
-    setSrc: (payload) => set({ src: payload }),
+    setSrc: (payload) => {
+      set({ src: payload });
+
+      if (payload) usePlaylistStore.getState().addToPlayed(payload);
+    },
     setVolume: (payload) => set({ volume: payload }),
     setProgress: (payload) => set({ progress: payload }),
     setTotal: (payload) => set({ total: payload }),
