@@ -10,6 +10,7 @@ import { usePlayerStore } from '../../stores/player';
 import encodePath from '../../utils/encodePath';
 import { Progress } from '../Progress';
 import { TrackCover } from '../TrackCover';
+import { TrackInfo } from '../TrackInfo';
 import { Volume } from '../Volume';
 import styles from './styles.module.scss';
 
@@ -60,33 +61,34 @@ export const Controls = () => {
         {...(src && { src: `file:///${encodePath(src)}` })}
       />
       <div data-controls className={clsx(styles.container, fullscreen && styles.fullscreen)}>
-        <div>
-          <TrackCover />
-          <div className={styles.buttons}>
-            <button type="button" onClick={prevTrack}>
-              <SkipPreviousIcon />
-            </button>
-            <button type="button" onClick={nextTrack}>
-              <SkipNextIcon />
-            </button>
-            <button
-              type="button"
-              disabled={!src}
-              onClick={() => {
-                if (element) {
-                  if (playing) {
-                    element.pause();
-                  } else {
-                    element.play();
-                  }
-                }
-              }}
-            >
-              {playing ? <PauseIcon /> : <PlayIcon />}
-            </button>
-          </div>
-        </div>
         <Progress />
+        <div className={styles.wrapper}>
+          <TrackCover />
+          <TrackInfo />
+        </div>
+        <div className={styles.buttons}>
+          <button type="button" onClick={prevTrack}>
+            <SkipPreviousIcon />
+          </button>
+          <button
+            type="button"
+            disabled={!src}
+            onClick={() => {
+              if (element) {
+                if (playing) {
+                  element.pause();
+                } else {
+                  element.play();
+                }
+              }
+            }}
+          >
+            {playing ? <PauseIcon /> : <PlayIcon />}
+          </button>
+          <button type="button" onClick={nextTrack}>
+            <SkipNextIcon />
+          </button>
+        </div>
         <Volume />
       </div>
     </>

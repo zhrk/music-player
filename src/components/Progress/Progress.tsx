@@ -32,7 +32,9 @@ export const Progress = () => {
           }
         }}
       />
-      {`${formatDuration(progress)} / ${formatDuration(total)}`}
+      <span className={styles.time}>
+        {`${formatDuration(progress)} / ${formatDuration(total)}`}
+      </span>
     </div>
   );
 };

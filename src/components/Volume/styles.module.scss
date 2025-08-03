@@ -7,8 +7,24 @@
 }
 
 .volume {
-  margin-left: auto;
+  margin: 0;
   width: 150px;
+  appearance: none;
+  overflow: hidden;
+  cursor: pointer;
+
+  &::-webkit-slider-runnable-track {
+    height: 6px;
+    background: var(--dark-2);
+  }
+
+  &::-webkit-slider-thumb {
+    width: 0;
+    height: 12px;
+    appearance: none;
+    border-image: linear-gradient(90deg, var(--white) 50%, var(--dark-2) 0) 0 1 / calc(50% - 6px)
+      100vw/0 100vw;
+  }
 
   &:hover {
     & ~ .value {

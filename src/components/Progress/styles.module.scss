@@ -1,12 +1,37 @@
 .container {
-  padding: 0 16px;
+  position: absolute;
+  top: -3px;
+  right: 0;
+  left: 0;
   display: flex;
   align-items: center;
   flex-grow: 1;
 }
 
 .progress {
-  margin-right: 16px;
+  margin: 0;
   flex-grow: 1;
-  box-sizing: border-box;
+  cursor: pointer;
+  appearance: none;
+
+  &::-webkit-slider-thumb {
+    width: 0;
+    height: 3px;
+    appearance: none;
+    border-image: linear-gradient(90deg, var(--white) 50%, var(--dark-2) 0) 0 1 / calc(50% - 3px)
+      100vw/0 100vw;
+  }
+}
+
+.time {
+  position: absolute;
+  top: 0;
+  right: 15px;
+  transform: translateY(-100%);
+  padding: 6px 4px 4px 6px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--dark-2);
+  font-size: 18px;
 }

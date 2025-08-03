@@ -1,13 +1,10 @@
 .container {
+  position: relative;
   padding-right: 16px;
   display: flex;
+  justify-content: space-between;
   align-items: center;
   box-sizing: border-box;
-
-  & > div {
-    display: flex;
-    align-items: center;
-  }
 }
 
 .container.fullscreen {
@@ -20,10 +17,22 @@
   transition: all 0.2s ease-in-out;
 }
 
-.buttons {
-  margin-left: 8px;
+.wrapper {
   display: flex;
+  align-items: center;
+}
+
+.buttons {
+  position: absolute;
+  right: 0;
+  left: 0;
+  margin-right: auto;
+  margin-left: auto;
+  display: flex;
+  align-self: center;
+  justify-content: center;
   column-gap: 4px;
+  pointer-events: none;
 
   & > button {
     width: 32px;
@@ -33,6 +42,7 @@
     align-items: center;
     font-size: 16px;
     font-weight: bold;
+    pointer-events: all;
 
     & > svg {
       width: 16px;
@@ -42,7 +52,7 @@
 
     &:hover {
       & > svg {
-        fill: var(--dark);
+        fill: var(--dark-3);
       }
     }
   }

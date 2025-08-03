@@ -1,8 +1,11 @@
 :root {
+  --white: #fff;
   --black: #000;
 
   --blue: #0078d4;
   --dark: #121212;
+  --dark-2: #2c2c2c;
+  --dark-3: #9f9f9f;
 
   --shadow-fullscreen: 0px 4px 12px color-opacity(var(--black), 0.1);
 }
@@ -30,8 +33,4 @@ body {
 button {
   all: unset;
   cursor: pointer;
-}
-
-input[type='range'] {
-  accent-color: var(--dark);
 }

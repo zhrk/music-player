@@ -2,9 +2,5 @@
   z-index: 1;
   position: relative;
   height: var(--app-title-bar-height);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 13px;
   -webkit-app-region: drag;
 }
