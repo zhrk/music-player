@@ -6,9 +6,7 @@ import PlayIcon from '../../static/icons/play.svg';
 import SkipNextIcon from '../../static/icons/skip-next.svg';
 import SkipPreviousIcon from '../../static/icons/skip-previous.svg';
 import { useAppStore } from '../../stores/app';
-import { useFilesStore } from '../../stores/files';
 import { usePlayerStore } from '../../stores/player';
-import { usePlaylistStore } from '../../stores/playlist';
 import encodePath from '../../utils/encodePath';
 import { Progress } from '../Progress';
 import { TrackCover } from '../TrackCover';
@@ -16,21 +14,29 @@ import { Volume } from '../Volume';
 import styles from './styles.module.scss';
 
 export const Controls = () => {
-  const { played } = usePlaylistStore((state) => ({ played: state.played }));
   const { fullscreen } = useAppStore((state) => ({ fullscreen: state.fullscreen }));
-  const { flatFiles } = useFilesStore((state) => ({ flatFiles: state.flatFiles }));
 
-  const { src, element, playing, setPlaying, setElement, setProgress, setTotal, setSrc } =
-    usePlayerStore((state) => ({
-      element: state.element,
-      src: state.src,
-      playing: state.playing,
-      setElement: state.setElement,
-      setSrc: state.setSrc,
-      setPlaying: state.setPlaying,
-      setProgress: state.setProgress,
-      setTotal: state.setTotal,
-    }));
+  const {
+    src,
+    element,
+    playing,
+    setElement,
+    setPlaying,
+    setProgress,
+    setTotal,
+    nextTrack,
+    prevTrack,
+  } = usePlayerStore((state) => ({
+    src: state.src,
+    element: state.element,
+    playing: state.playing,
+    setElement: state.setElement,
+    setPlaying: state.setPlaying,
+    setProgress: state.setProgress,
+    setTotal: state.setTotal,
+    nextTrack: state.nextTrack,
+    prevTrack: state.prevTrack,
+  }));
 
   const callbackRef = useCallback(
     (node: HTMLAudioElement) => {
@@ -40,16 +46,6 @@ export const Controls = () => {
   );
 
   const prevSrc = usePrevious(src);
-
-  const nextTrack = () => {
-    const randomTrack = flatFiles[Math.floor(Math.random() * flatFiles.length)].path;
-
-    if (played.includes(randomTrack)) {
-      nextTrack();
-    } else {
-      setSrc(randomTrack);
-    }
-  };
 
   return (
     <>
@@ -67,10 +63,10 @@ export const Controls = () => {
         <div>
           <TrackCover />
           <div className={styles.buttons}>
-            <button type="button">
+            <button type="button" onClick={prevTrack}>
               <SkipPreviousIcon />
             </button>
-            <button type="button" onClick={() => nextTrack()}>
+            <button type="button" onClick={nextTrack}>
               <SkipNextIcon />
             </button>
             <button
