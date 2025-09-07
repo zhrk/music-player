@@ -2,5 +2,66 @@
   z-index: 1;
   position: relative;
   height: var(--app-title-bar-height);
+  display: grid;
+  grid-template-columns: 1fr auto;
+}
+
+.drag {
   -webkit-app-region: drag;
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+
+  & > button {
+    width: 44px;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+
+    &:hover:not(:last-child) {
+      background-color: var(--dark-2);
+    }
+
+    &:hover:last-child {
+      background-color: var(--red);
+    }
+  }
+}
+
+.minimize {
+  & > div {
+    width: 12px;
+    height: 1px;
+    background-color: var(--white);
+  }
+}
+
+.maximize {
+  & > div {
+    width: 12px;
+    height: 12px;
+    border: 1px solid var(--white);
+    box-sizing: border-box;
+  }
+}
+
+.close {
+  & > div {
+    position: absolute;
+    width: 16px;
+    height: 1px;
+    background-color: var(--white);
+  }
+
+  & > div:first-child {
+    transform: rotate(45deg);
+  }
+
+  & > div:last-child {
+    transform: rotate(-45deg);
+  }
 }
