@@ -16,7 +16,6 @@ if (process.defaultApp) {
 }
 
 const BG_COLOR = '#111';
-const TITLE_BAR_HEIGHT = 32;
 
 let win;
 
@@ -42,11 +41,6 @@ if (!gotTheLock) {
       },
       backgroundColor: BG_COLOR,
       titleBarStyle: 'hidden',
-      titleBarOverlay: {
-        color: BG_COLOR,
-        symbolColor: '#fff',
-        height: TITLE_BAR_HEIGHT,
-      },
     });
 
     win.loadURL(`http://localhost:4444`);
@@ -61,17 +55,12 @@ if (!gotTheLock) {
     // win.show();
     // win.webContents.openDevTools();
 
-    const handleInitCSSVars = () => ({
-      '--app-title-bar-height': `${TITLE_BAR_HEIGHT}px`,
-    });
-
     const handleGetFiles = async () => {
       const files = await getFiles(app.getPath('music'));
 
       return files;
     };
 
-    ipcMain.handle('initCSSVars', handleInitCSSVars);
     ipcMain.handle('getFiles', handleGetFiles);
 
     ipcMain.on('change-color', (_, color) => win.setTitleBarOverlay({ color }));
