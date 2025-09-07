@@ -32,7 +32,9 @@ if (!gotTheLock) {
 
   app.whenReady().then(() => {
     win = new BrowserWindow({
-      width: 1024,
+      width: 1579,
+      minWidth: 1024,
+      minHeight: 800,
       height: 800,
       webPreferences: {
         preload: path.join(__dirname, 'preload.js'),
@@ -60,6 +62,22 @@ if (!gotTheLock) {
 
       return files;
     };
+
+    ipcMain.on('app', (_, action) => {
+      if (!win) return;
+
+      if (action === 'minimize') win.minimize();
+
+      if (action === 'maximize') {
+        if (win.isMaximized()) {
+          win.unmaximize();
+        } else {
+          win.maximize();
+        }
+      }
+
+      if (action === 'close') win.close();
+    });
 
     ipcMain.handle('getFiles', handleGetFiles);
 
