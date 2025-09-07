@@ -2,17 +2,9 @@
   z-index: 1;
   position: relative;
   height: var(--app-title-bar-height);
-  display: grid;
-  grid-template-columns: 1fr auto;
-}
-
-.drag {
-  -webkit-app-region: drag;
-}
-
-.controls {
   display: flex;
-  align-items: center;
+  justify-content: flex-end;
+  app-region: drag;
 
   & > button {
     width: 44px;
@@ -21,6 +13,7 @@
     justify-content: center;
     align-items: center;
     cursor: pointer;
+    app-region: no-drag;
 
     &:hover:not(:last-child) {
       background-color: var(--dark-2);
