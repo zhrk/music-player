@@ -1,15 +1,12 @@
 const path = require('node:path');
-const { app, BrowserWindow, ipcMain, screen } = require('electron');
+const { app, BrowserWindow, ipcMain } = require('electron');
+const { BG_COLOR, HEIGHT, isDev, WIDTH } = require('./app');
 const getFiles = require('./getFiles');
+const { setMenu } = require('./menu');
 require('./server');
 
 const protocol = app.name;
-const isDev = !app.isPackaged;
 const gotTheLock = app.requestSingleInstanceLock();
-
-const WIDTH = 1024;
-const HEIGHT = 800;
-const DEVTOOLS_WIDTH = 554;
 
 if (process.defaultApp) {
   if (process.argv.length >= 2) {
@@ -19,8 +16,9 @@ if (process.defaultApp) {
   app.setAsDefaultProtocolClient(protocol);
 }
 
-const BG_COLOR = '#111';
-
+/**
+ * @type {BrowserWindow}
+ */
 let win;
 
 if (!gotTheLock) {
@@ -36,7 +34,7 @@ if (!gotTheLock) {
 
   app.whenReady().then(() => {
     win = new BrowserWindow({
-      width: WIDTH + DEVTOOLS_WIDTH,
+      width: WIDTH,
       minWidth: WIDTH,
       minHeight: HEIGHT,
       height: HEIGHT,
@@ -51,23 +49,6 @@ if (!gotTheLock) {
 
     win.loadURL(`http://localhost:4444`);
     win.removeMenu();
-
-    if (isDev) {
-      win.webContents.openDevTools();
-
-      const primaryDisplay = screen.getPrimaryDisplay();
-
-      const { width } = primaryDisplay.workAreaSize;
-
-      win.webContents.on('devtools-closed', () => {
-        win.setBounds({ width: WIDTH, x: (width - WIDTH) / 2 });
-      });
-    }
-
-    // win.hide();
-    // win.maximize();
-    // win.show();
-    // win.webContents.openDevTools();
 
     const handleGetFiles = async () => {
       const files = await getFiles(app.getPath('music'));
@@ -92,5 +73,7 @@ if (!gotTheLock) {
     });
 
     ipcMain.handle('getFiles', handleGetFiles);
+
+    setMenu(win);
   });
 }
