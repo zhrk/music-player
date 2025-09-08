@@ -38,12 +38,18 @@ export const usePlayerStore = create<State>()((set, get) => {
     total: 0,
     nextTrack: () => {
       const { nextTrack } = get();
-      const { played, prev, setPrev } = usePlaylistStore.getState();
+      const { played, prev, queue, setPrev, setQueue } = usePlaylistStore.getState();
       const { flatFiles } = useFilesStore.getState();
 
       if (prev < -1) {
         set({ src: played.at(prev + 1) });
         setPrev(prev + 1);
+      } else if (queue.length) {
+        const [queueTrack, ...rest] = queue;
+
+        set({ src: queueTrack });
+        setQueue(rest);
+        usePlaylistStore.getState().addToPlayed(queueTrack);
       } else {
         const randomTrack = flatFiles[Math.floor(Math.random() * flatFiles.length)].path;
 

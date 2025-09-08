@@ -1,5 +1,6 @@
 import usePrevious from '../../hooks/usePrevious';
 import { usePlayerStore } from '../../stores/player';
+import { usePlaylistStore } from '../../stores/playlist';
 import Files from '../../types/files';
 import styles from './styles.module.scss';
 
@@ -14,6 +15,8 @@ export const Track = (props: { data: Files['files'][number] }) => {
     playing: state.playing,
     setSrc: state.setSrc,
   }));
+
+  const { addToQueue } = usePlaylistStore((state) => ({ addToQueue: state.addToQueue }));
 
   const prevSrc = usePrevious(src);
 
@@ -45,7 +48,14 @@ export const Track = (props: { data: Files['files'][number] }) => {
           {name}
         </button>
       ) : (
-        name
+        <button
+          type="button"
+          onClick={() =>
+            addToQueue(children.flatMap((item) => (item.type === 'file' ? [item.path] : [])))
+          }
+        >
+          {name}
+        </button>
       )}
       {type === 'file' ? null : children.map((item) => <Track key={item.name} data={item} />)}
     </div>
