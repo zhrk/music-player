@@ -9,7 +9,7 @@ const gotTheLock = app.requestSingleInstanceLock();
 
 const WIDTH = 1024;
 const HEIGHT = 800;
-const DEVTOOLS_WIDTH = 555;
+const DEVTOOLS_WIDTH = 554;
 
 if (process.defaultApp) {
   if (process.argv.length >= 2) {
@@ -92,7 +92,5 @@ if (!gotTheLock) {
     });
 
     ipcMain.handle('getFiles', handleGetFiles);
-
-    ipcMain.on('change-color', (_, color) => win.setTitleBarOverlay({ color }));
   });
 }

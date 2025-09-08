@@ -7,7 +7,6 @@ type Files = {
 
 interface Window {
   electron: {
-    setColor: (color: string) => void;
     getFiles: () => Promise<{ files: Files; flatFiles: Files; rootPath: string }>;
     app: {
       minimize: () => void;
