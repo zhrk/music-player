@@ -65,15 +65,17 @@ export const usePlayerStore = create<State>()((set, get) => {
       const playlistStore = usePlaylistStore.getState();
       const { played, setPrev } = playlistStore;
 
-      let prev = playlistStore.prev;
+      if (played.length) {
+        let prev = playlistStore.prev;
 
-      if (Math.abs(prev) !== played.length && get().src) {
-        prev = prev - 1;
+        if (Math.abs(prev) !== played.length && get().src) {
+          prev = prev - 1;
 
-        if (prev === -1) prev = -2;
+          if (prev === -1) prev = -2;
 
-        set({ src: played.at(prev) });
-        setPrev(prev);
+          set({ src: played.at(prev) });
+          setPrev(prev);
+        }
       }
     },
     setElement: (payload) => {
