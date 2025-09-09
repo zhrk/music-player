@@ -56,7 +56,7 @@ if (!gotTheLock) {
       return files;
     };
 
-    ipcMain.on('app', (_, action) => {
+    ipcMain.on('app', (_, action, meta) => {
       if (!win) return;
 
       if (action === 'minimize') win.minimize();
@@ -70,6 +70,16 @@ if (!gotTheLock) {
       }
 
       if (action === 'close') win.close();
+
+      if (action === 'find') {
+        const { text, forward } = meta;
+
+        if (text) {
+          win.webContents.findInPage(text, { forward });
+        } else {
+          win.webContents.stopFindInPage('clearSelection');
+        }
+      }
     });
 
     ipcMain.handle('getFiles', handleGetFiles);

@@ -1,13 +1,23 @@
 const { Menu, MenuItem, screen } = require('electron');
 const { DEVTOOLS_WIDTH, isDev, WIDTH } = require('./app');
+const { createWinFind } = require('./find');
 
 const menu = new Menu();
 
 const setMenu = (win) => {
+  const winFind = createWinFind(win);
+
+  const menuFind = new MenuItem({
+    click: () => winFind.show(),
+    accelerator: 'CommandOrControl+F',
+  });
+
   const menuDevTools = new MenuItem({
     click: () => win.webContents.toggleDevTools(),
     accelerator: 'F12',
   });
+
+  menu.append(menuFind);
 
   if (isDev) {
     menu.append(menuDevTools);
@@ -24,6 +34,11 @@ const setMenu = (win) => {
       win.setBounds({ width: WIDTH, x: (width - WIDTH) / 2 })
     );
   }
+
+  winFind.on('hide', () => {
+    win.webContents.stopFindInPage('clearSelection');
+    win.focus();
+  });
 
   win.setMenu(menu);
 };

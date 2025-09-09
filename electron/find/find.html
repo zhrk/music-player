@@ -1,0 +1,45 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Find</title>
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
+    <style>
+      body {
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+      }
+
+      input {
+        min-height: 100dvh;
+        background-color: #222;
+        outline: none;
+        border: 1px solid #fff;
+        box-sizing: border-box;
+        padding: 8px;
+        color: #fff;
+        font-size: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <input autofocus id="input" type="text" />
+    <script>
+      document.getElementById('input').addEventListener('input', (event) => {
+        window.electron.app.find(event.currentTarget.value);
+      });
+
+      document.getElementById('input').addEventListener('keydown', (event) => {
+        if (event.key === 'Enter') {
+          window.electron.app.find(event.currentTarget.value, !event.shiftKey);
+        }
+
+        if (event.key === 'Escape') {
+          event.currentTarget.value = '';
+        }
+      });
+    </script>
+  </body>
+</html>
