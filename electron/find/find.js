@@ -1,5 +1,6 @@
 const path = require('node:path');
 const { BrowserWindow, Menu, MenuItem } = require('electron');
+const { APP_URL } = require('../app');
 
 const menu = new Menu();
 
@@ -13,7 +14,7 @@ const createWinFind = (mainWin) => {
     transparent: true,
     titleBarStyle: 'hidden',
     webPreferences: {
-      preload: path.join(__dirname, 'preload.js'),
+      preload: path.join(__dirname, '../preload.js'),
     },
   });
 
@@ -26,7 +27,7 @@ const createWinFind = (mainWin) => {
 
   win.setMenu(menu);
 
-  win.loadFile(path.join(__dirname, 'find.html'));
+  win.loadURL(`${APP_URL}/find`);
 
   return win;
 };

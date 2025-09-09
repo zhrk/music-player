@@ -1,6 +1,6 @@
 const path = require('node:path');
 const { app, BrowserWindow, ipcMain } = require('electron');
-const { BG_COLOR, HEIGHT, isDev, WIDTH } = require('./app');
+const { APP_URL, BG_COLOR, HEIGHT, isDev, WIDTH } = require('./app');
 const getFiles = require('./getFiles');
 const { setMenu } = require('./menu');
 require('./server');
@@ -47,8 +47,7 @@ if (!gotTheLock) {
       titleBarStyle: 'hidden',
     });
 
-    win.loadURL(`http://localhost:4444`);
-    win.removeMenu();
+    win.loadURL(APP_URL);
 
     const handleGetFiles = async () => {
       const files = await getFiles(app.getPath('music'));

@@ -12,8 +12,8 @@ interface Window {
       minimize: () => void;
       maximize: () => void;
       close: () => void;
-      find: (text: string) => void;
       openFind: (callback: () => void) => void;
+      find: (text: string, forward?: boolean) => void;
     };
   };
 }

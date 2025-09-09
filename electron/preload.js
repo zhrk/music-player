@@ -6,5 +6,6 @@ contextBridge.exposeInMainWorld('electron', {
     minimize: () => ipcRenderer.send('app', 'minimize'),
     maximize: () => ipcRenderer.send('app', 'maximize'),
     close: () => ipcRenderer.send('app', 'close'),
+    find: (text, forward) => ipcRenderer.send('app', 'find', { text, forward }),
   },
 });
