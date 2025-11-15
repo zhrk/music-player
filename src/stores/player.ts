@@ -103,9 +103,11 @@ export const usePlayerStore = create<State>()(
       setTotal: (payload) => set({ total: payload }),
       addToPlayed: (payload) => set({ played: takeLast([...get().played, payload], 100) }),
       addToQueue: (payload) => {
-        const { nextTrack } = usePlayerStore.getState();
+        const { queue, nextTrack } = get();
 
-        if (payload.length) {
+        if (queue.length) {
+          set({ queue: [...queue, ...payload] });
+        } else {
           set({ queue: payload });
           nextTrack();
         }
