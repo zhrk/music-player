@@ -1,8 +1,15 @@
 .container {
   margin-left: 8px;
+  width: calc(50% - 57px); //  57 = control buttons width / 2
   display: flex;
   flex-direction: column;
   row-gap: 2px;
+
+  & > span:first-child {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+  }
 
   & > span:last-child {
     color: var(--dark-3);

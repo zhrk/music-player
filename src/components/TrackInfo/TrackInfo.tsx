@@ -13,17 +13,19 @@ export const TrackInfo = () => {
 
   const parts = path?.split('\\');
 
-  const [other, name] = splitAt(parts, parts.length - 1);
+  const [rawOther, rawName] = splitAt(parts, parts.length - 1);
+
+  const name = rawName
+    .join('')
+    .replace('.mp3', '')
+    .replace(/\[.*?\]/g, '');
+
+  const other = rawOther.join(' - ');
 
   return (
     <div className={styles.container}>
-      <span>
-        {name
-          .join('')
-          .replace('.mp3', '')
-          .replace(/\[.*?\]/g, '')}
-      </span>
-      <span>{other.join(' - ')}</span>
+      <span title={name}>{name}</span>
+      <span title={other}>{other}</span>
     </div>
   );
 };
