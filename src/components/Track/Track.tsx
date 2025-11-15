@@ -48,9 +48,14 @@ export const Track = (props: { data: Files['files'][number] }) => {
       ) : (
         <button
           type="button"
-          onClick={() =>
-            addToQueue(children.flatMap((item) => (item.type === 'file' ? [item.path] : [])))
-          }
+          onClick={() => {
+            const getFiles = (files: Files['files']): Parameters<typeof addToQueue>[0] =>
+              files.flatMap((item) =>
+                item.type === 'file' ? [item.path] : getFiles(item.children)
+              );
+
+            addToQueue(getFiles(children));
+          }}
         >
           {name}
         </button>
