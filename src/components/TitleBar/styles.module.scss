@@ -1,26 +1,48 @@
 .container {
   z-index: 1;
   position: relative;
+  padding-left: 16px;
   height: var(--app-title-bar-height);
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
+  align-items: center;
   app-region: drag;
 
-  & > button {
-    width: 44px;
+  & > div:last-child {
     height: 100%;
     display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-    app-region: no-drag;
 
-    &:hover:not(:last-child) {
-      background-color: var(--dark-2);
+    & > button {
+      width: 44px;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      app-region: no-drag;
+
+      &:hover:not(:last-child) {
+        background-color: var(--dark-2);
+      }
+
+      &:hover:last-child {
+        background-color: var(--red);
+      }
     }
+  }
+}
 
-    &:hover:last-child {
-      background-color: var(--red);
+.buttons {
+  display: flex;
+  app-region: no-drag;
+
+  & > button {
+    color: var(--dark-3);
+    font-size: 14px;
+    white-space: nowrap;
+
+    &:hover {
+      color: var(--white);
     }
   }
 }

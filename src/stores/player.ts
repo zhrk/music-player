@@ -33,6 +33,7 @@ interface State {
   addToPlayed: (payload: Tracks[number]) => void;
   addToQueue: (payload: Tracks) => void;
   setQueue: (payload: Tracks) => void;
+  clearQueue: () => void;
   setPrev: (payload: Prev) => void;
 }
 
@@ -110,6 +111,10 @@ export const usePlayerStore = create<State>()(
         }
       },
       setQueue: (payload) => set({ queue: payload }),
+      clearQueue: () => {
+        set({ queue: [] });
+        get().nextTrack();
+      },
       setPrev: (payload) => set({ prev: payload }),
     }),
     {

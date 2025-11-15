@@ -56,8 +56,6 @@ if (!gotTheLock) {
     };
 
     ipcMain.on('app', (_, action, meta) => {
-      if (!win) return;
-
       if (action === 'minimize') win.minimize();
 
       if (action === 'maximize') {
