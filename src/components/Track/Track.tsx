@@ -1,6 +1,5 @@
 import usePrevious from '../../hooks/usePrevious';
 import { usePlayerStore } from '../../stores/player';
-import { usePlaylistStore } from '../../stores/playlist';
 import Files from '../../types/files';
 import styles from './styles.module.scss';
 
@@ -9,14 +8,13 @@ export const Track = (props: { data: Files['files'][number] }) => {
 
   const { name, type, path, children } = data;
 
-  const { element, src, playing, setSrc } = usePlayerStore((state) => ({
+  const { element, src, playing, setSrc, addToQueue } = usePlayerStore((state) => ({
     element: state.element,
     src: state.src,
     playing: state.playing,
     setSrc: state.setSrc,
+    addToQueue: state.addToQueue,
   }));
-
-  const { addToQueue } = usePlaylistStore((state) => ({ addToQueue: state.addToQueue }));
 
   const prevSrc = usePrevious(src);
 
