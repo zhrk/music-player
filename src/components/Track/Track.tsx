@@ -1,3 +1,4 @@
+import { useStoreWithEqualityFn } from 'zustand/traditional';
 import usePrevious from '../../hooks/usePrevious';
 import { usePlayerStore } from '../../stores/player';
 import Files from '../../types/files';
@@ -8,13 +9,21 @@ export const Track = (props: { data: Files['files'][number] }) => {
 
   const { name, type, path, children } = data;
 
-  const { element, src, playing, setSrc, addToQueue } = usePlayerStore((state) => ({
-    element: state.element,
-    src: state.src,
-    playing: state.playing,
-    setSrc: state.setSrc,
-    addToQueue: state.addToQueue,
-  }));
+  const element = usePlayerStore((state) => state.element);
+  const setSrc = usePlayerStore((state) => state.setSrc);
+  const addToQueue = usePlayerStore((state) => state.addToQueue);
+
+  const src = useStoreWithEqualityFn(
+    usePlayerStore,
+    (state) => state.src,
+    (prev, next) => !(path === prev || path === next)
+  );
+
+  const playing = useStoreWithEqualityFn(
+    usePlayerStore,
+    (state) => state.playing,
+    () => path !== src
+  );
 
   const prevSrc = usePrevious(src);
 
