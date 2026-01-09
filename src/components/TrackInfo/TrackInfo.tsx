@@ -1,6 +1,7 @@
 import { splitAt } from 'remeda';
 import { useFilesStore } from '../../stores/files';
 import { usePlayerStore } from '../../stores/player';
+import { beautifyTrackName } from '../../utils/beautifyTrackName';
 import styles from './styles.module.scss';
 
 export const TrackInfo = () => {
@@ -15,11 +16,7 @@ export const TrackInfo = () => {
 
   const [rawOther, rawName] = splitAt(parts, parts.length - 1);
 
-  const name = rawName
-    .join('')
-    .replace('.mp3', '')
-    .replace(/\[.*?\]/g, '');
-
+  const name = beautifyTrackName(rawName.join(''));
   const other = rawOther.join(' - ');
 
   return (

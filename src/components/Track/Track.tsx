@@ -2,6 +2,7 @@ import { useStoreWithEqualityFn } from 'zustand/traditional';
 import usePrevious from '../../hooks/usePrevious';
 import { usePlayerStore } from '../../stores/player';
 import Files from '../../types/files';
+import { beautifyTrackName } from '../../utils/beautifyTrackName';
 import styles from './styles.module.scss';
 
 export const Track = (props: { data: Files['files'][number] }) => {
@@ -52,7 +53,7 @@ export const Track = (props: { data: Files['files'][number] }) => {
             }
           }}
         >
-          {name}
+          {beautifyTrackName(name)}
         </button>
       ) : (
         <button
