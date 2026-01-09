@@ -6,7 +6,7 @@
   "main": "./electron/main.js",
   "scripts": {
     "start": "concurrently \"zhrk-scripts start:rsbuild --port 4444\" \"electronmon .\"",
-    "build": "electron-builder",
+    "build": "node ./electron/scripts/build.js",
     "upgrade": "npx npm-check --update --save-exact"
   },
   "dependencies": {

@@ -1,10 +1,10 @@
 const path = require('node:path');
 const { app, BrowserWindow, ipcMain } = require('electron');
 const log = require('electron-log/main');
-const { APP_URL, BG_COLOR, HEIGHT, isDev, WIDTH } = require('./app');
+const { APP_PATH, APP_URL, BG_COLOR, HEIGHT, isDev, WIDTH } = require('./app');
 const getFiles = require('./getFiles');
 const { setMenu } = require('./menu');
-require('./server');
+const server = require('./server');
 
 if (!isDev) {
   log.initialize();
@@ -54,7 +54,11 @@ if (!gotTheLock) {
       titleBarStyle: 'hidden',
     });
 
-    win.loadURL(APP_URL);
+    if (isDev) {
+      win.loadURL(APP_URL);
+    } else {
+      win.loadFile(path.join(APP_PATH, 'build/index.html'));
+    }
 
     const handleGetFiles = async () => {
       const files = await getFiles(app.getPath('music'));
@@ -91,3 +95,5 @@ if (!gotTheLock) {
     setMenu(win);
   });
 }
+
+app.on('before-quit', () => server.close());

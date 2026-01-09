@@ -1,6 +1,5 @@
 const path = require('node:path');
 const { BrowserWindow, Menu, MenuItem } = require('electron');
-const { APP_URL } = require('../app');
 
 const menu = new Menu();
 
@@ -27,7 +26,7 @@ const createWinFind = (mainWin) => {
 
   win.setMenu(menu);
 
-  win.loadURL(`${APP_URL}/find`);
+  // win.loadFile(path.join(APP_PATH, 'build/index.html'));
 
   return win;
 };

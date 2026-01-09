@@ -1,18 +1,16 @@
 const { serve } = require('@hono/node-server');
 const { Hono } = require('hono');
 const musicMetadata = require('music-metadata');
-const { readFileSync } = require('original-fs');
-
-const emptyCover = readFileSync('./electron/emptyCover.png');
+const emptyCover = require('./emptyCover');
 
 const config = { headers: { 'Content-Type': 'image/jpeg' } };
 
 const app = new Hono({ port: 4445 });
 
-app.get('/cover/:path', async (c) => {
-  const pathParam = c.req.param('path');
+app.get('/cover', async (c) => {
+  const src = c.req.query('src');
 
-  const metadata = await musicMetadata.parseFile(decodeURIComponent(pathParam));
+  const metadata = await musicMetadata.parseFile(decodeURIComponent(src));
 
   const picture = metadata.common.picture;
 
@@ -25,4 +23,23 @@ app.get('/cover/:path', async (c) => {
   return new Response(picture[0].data, config);
 });
 
-serve(app);
+// app.get('/track', (c) => {
+//   const src = c.req.query('src');
+
+//   const path = decodeURIComponent(src);
+
+//   const stats = fs.statSync(path);
+//   const buffer = fs.readFileSync(path);
+
+//   return new Response(buffer, {
+//     headers: {
+//       'Content-Type': 'audio/mpeg',
+//       'Content-Length': stats.size.toString(),
+//       'Accept-Ranges': 'bytes',
+//     },
+//   });
+// });
+
+const server = serve(app);
+
+module.exports = server;
