@@ -1,9 +1,16 @@
 const path = require('node:path');
 const { app, BrowserWindow, ipcMain } = require('electron');
+const log = require('electron-log/main');
 const { APP_URL, BG_COLOR, HEIGHT, isDev, WIDTH } = require('./app');
 const getFiles = require('./getFiles');
 const { setMenu } = require('./menu');
 require('./server');
+
+if (!isDev) {
+  log.initialize();
+  log.eventLogger.startLogging();
+  log.errorHandler.startCatching();
+}
 
 const protocol = app.name;
 const gotTheLock = app.requestSingleInstanceLock();

@@ -1,6 +1,6 @@
 {
   "name": "music-player",
-  "version": "1.0.0",
+  "version": "0.0.0",
   "author": "zhrk",
   "description": "desc",
   "main": "./electron/main.js",
@@ -10,26 +10,27 @@
     "upgrade": "npx npm-check --update --save-exact"
   },
   "dependencies": {
-    "@hono/node-server": "1.19.1",
+    "@hono/node-server": "1.19.7",
     "clsx": "2.1.1",
     "dree": "5.1.5",
-    "hono": "4.9.6",
-    "music-metadata": "11.8.3",
-    "react": "19.1.1",
-    "react-dom": "19.1.1",
-    "remeda": "2.30.0",
-    "use-sync-external-store": "1.5.0",
-    "wouter": "3.7.1",
-    "zustand": "5.0.8"
+    "electron-log": "5.4.3",
+    "hono": "4.11.3",
+    "music-metadata": "11.10.5",
+    "react": "19.2.3",
+    "react-dom": "19.2.3",
+    "remeda": "2.33.1",
+    "use-sync-external-store": "1.6.0",
+    "wouter": "3.9.0",
+    "zustand": "5.0.9"
   },
   "devDependencies": {
-    "@types/react": "19.1.12",
-    "@types/react-dom": "19.1.9",
+    "@types/react": "19.2.7",
+    "@types/react-dom": "19.2.3",
     "@zhrk/pack": "1.0.96",
     "concurrently": "9.2.1",
-    "electron": "38.0.0",
-    "electron-builder": "26.0.12",
-    "electronmon": "2.0.3"
+    "electron": "39.2.7",
+    "electron-builder": "26.4.0",
+    "electronmon": "2.0.4"
   },
   "electronmon": {
     "patterns": [
@@ -44,16 +45,10 @@
     "files": [
       "build",
       "electron"
-    ],
-    "win": {
-      "target": "portable"
-    }
+    ]
   },
   "prettier": "@zhrk/pack/.prettierrc.js",
   "stylelint": {
     "extends": "@zhrk/pack/stylelint.config.js"
-  },
-  "eslintConfig": {
-    "extends": "./node_modules/@zhrk/pack/.eslintrc.js"
   }
 }
