@@ -15,7 +15,7 @@ const build = () => {
 
   console.log('Building app...');
   rmSync(distPath, { recursive: true, force: true });
-  run('zhrk-scripts', ['build:rsbuild']);
+  run('zhrk-scripts', ['build']);
 
   const content = readFileSync(indexHtmlPath, 'utf8');
 
