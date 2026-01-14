@@ -22,7 +22,7 @@ interface State {
   played: Tracks;
   queue: Tracks;
   prev: number;
-  setSrc: (payload: Src) => void;
+  setSrc: (payload: Src, play?: boolean) => void;
   togglePlayPause: () => void;
   nextTrack: () => void;
   prevTrack: () => void;
@@ -44,7 +44,7 @@ export const usePlayerStore = create<State>()(
       played: [],
       queue: [],
       prev: -1,
-      setSrc: (payload) => {
+      setSrc: (payload, play = true) => {
         const { volume, nextTrack } = get();
 
         set({ src: payload });
@@ -68,15 +68,13 @@ export const usePlayerStore = create<State>()(
           audio.addEventListener('volumechange', () => {
             if (audio) set({ volume: audio.volume });
           });
-
-          audio.addEventListener('canplay', () => {
-            if (audio) audio.play();
-          });
         }
 
         if (audio && payload) {
           audio.src = `file:///${encodePath(payload)}`;
         }
+
+        if (play) audio.play();
       },
       togglePlayPause: () => {
         if (audio) {
@@ -167,7 +165,7 @@ export const usePlayerStore = create<State>()(
       onRehydrateStorage: () => (state) => {
         const src = state?.played.at(state.prev);
 
-        if (src) state?.setSrc(src);
+        if (src) state?.setSrc(src, false);
       },
     }
   ),
