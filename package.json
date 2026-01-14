@@ -39,13 +39,15 @@
     ]
   },
   "build": {
+    "productName": "Music Player",
     "electronLanguages": [
       "en_US"
     ],
     "files": [
       "build",
       "electron"
-    ]
+    ],
+    "icon": "electron/icon.png"
   },
   "prettier": "@zhrk/pack/.prettierrc.js",
   "stylelint": {
