@@ -23,23 +23,6 @@ app.get('/cover', async (c) => {
   return new Response(picture[0].data, config);
 });
 
-// app.get('/track', (c) => {
-//   const src = c.req.query('src');
-
-//   const path = decodeURIComponent(src);
-
-//   const stats = fs.statSync(path);
-//   const buffer = fs.readFileSync(path);
-
-//   return new Response(buffer, {
-//     headers: {
-//       'Content-Type': 'audio/mpeg',
-//       'Content-Length': stats.size.toString(),
-//       'Accept-Ranges': 'bytes',
-//     },
-//   });
-// });
-
 const server = serve(app);
 
 module.exports = server;

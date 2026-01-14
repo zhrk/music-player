@@ -2,18 +2,18 @@ import { takeLast } from 'remeda';
 import { persist } from 'zustand/middleware';
 import { createWithEqualityFn as create } from 'zustand/traditional';
 import { shallow } from 'zustand/vanilla/shallow';
+import encodePath from '../utils/encodePath';
 import { useFilesStore } from './files';
+
+let audio: HTMLAudioElement | null = null;
 
 type Playing = boolean;
 type Src = string | null;
-type Element = HTMLAudioElement | null;
 type Volume = number;
 type Progress = number;
 type Tracks = string[];
-type Prev = number;
 
 interface State {
-  element: Element;
   src: Src;
   playing: Playing;
   volume: Volume;
@@ -21,26 +21,21 @@ interface State {
   total: Progress;
   played: Tracks;
   queue: Tracks;
-  prev: Prev;
+  prev: number;
+  setSrc: (payload: Src) => void;
+  togglePlayPause: () => void;
   nextTrack: () => void;
   prevTrack: () => void;
-  setElement: (payload: Element) => void;
-  setPlaying: (payload: Playing) => void;
-  setSrc: (payload: Src) => void;
+  seek: (payload: Progress) => void;
   setVolume: (payload: Volume) => void;
-  setProgress: (payload: Progress) => void;
-  setTotal: (payload: Progress) => void;
   addToPlayed: (payload: Tracks[number]) => void;
   addToQueue: (payload: Tracks) => void;
-  setQueue: (payload: Tracks) => void;
   clearQueue: () => void;
-  setPrev: (payload: Prev) => void;
 }
 
 export const usePlayerStore = create<State>()(
   persist(
     (set, get) => ({
-      element: null,
       src: null,
       playing: false,
       volume: 0.05,
@@ -49,58 +44,107 @@ export const usePlayerStore = create<State>()(
       played: [],
       queue: [],
       prev: -1,
+      setSrc: (payload) => {
+        const { volume, nextTrack } = get();
+
+        set({ src: payload });
+
+        if (!audio) {
+          audio = new Audio();
+          audio.volume = volume;
+
+          audio.addEventListener('ended', () => nextTrack());
+          audio.addEventListener('play', () => set({ playing: true }));
+          audio.addEventListener('pause', () => set({ playing: false }));
+
+          audio.addEventListener('loadedmetadata', () => {
+            if (audio) set({ total: Math.floor(audio.duration) });
+          });
+
+          audio.addEventListener('timeupdate', () => {
+            if (audio) set({ progress: Math.floor(audio.currentTime) });
+          });
+
+          audio.addEventListener('volumechange', () => {
+            if (audio) set({ volume: audio.volume });
+          });
+        }
+
+        if (audio && payload) {
+          audio.src = `file:///${encodePath(payload)}`;
+        }
+      },
+      togglePlayPause: () => {
+        if (audio) {
+          if (get().playing) {
+            audio.pause();
+          } else {
+            audio.play();
+          }
+        }
+      },
       nextTrack: () => {
-        const { nextTrack } = get();
-        const { played, prev, queue, setPrev, setQueue } = get();
+        const { played, prev, queue, addToPlayed, nextTrack, setSrc } = get();
         const { flatFiles } = useFilesStore.getState();
 
         if (prev < -1) {
-          set({ src: played.at(prev + 1) });
-          setPrev(prev + 1);
+          const src = played.at(prev + 1);
+
+          if (src) {
+            setSrc(src);
+            set({ prev: prev + 1 });
+          }
         } else if (queue.length) {
           const [queueTrack, ...rest] = queue;
 
-          set({ src: queueTrack });
-          setQueue(rest);
-          get().addToPlayed(queueTrack);
+          setSrc(queueTrack);
+          set({ queue: rest });
+          addToPlayed(queueTrack);
         } else {
           const randomTrack = flatFiles[Math.floor(Math.random() * flatFiles.length)].path;
 
           if (played.includes(randomTrack)) {
             nextTrack();
           } else {
-            set({ src: randomTrack });
-            get().addToPlayed(randomTrack);
+            setSrc(randomTrack);
+            addToPlayed(randomTrack);
           }
         }
+
+        if (audio) audio.play();
       },
       prevTrack: () => {
-        const playlistStore = get();
-        const { played, setPrev } = playlistStore;
+        const { src, played, setSrc } = get();
 
         if (played.length) {
-          let prev = playlistStore.prev;
+          let prev = get().prev;
 
-          if (Math.abs(prev) !== played.length && get().src) {
+          if (Math.abs(prev) !== played.length && src) {
             prev = prev - 1;
 
             if (prev === -1) prev = -2;
 
-            set({ src: played.at(prev) });
-            setPrev(prev);
+            const prevSrc = played.at(prev);
+
+            if (prevSrc) {
+              setSrc(prevSrc);
+              set({ prev });
+            }
           }
+
+          if (audio) audio.play();
         }
       },
-      setElement: (payload) => {
-        if (payload) payload.volume = get().volume;
-
-        set({ element: payload });
+      seek: (payload) => {
+        if (audio) {
+          audio.currentTime = Number(payload);
+        }
       },
-      setPlaying: (payload) => set({ playing: payload }),
-      setSrc: (payload) => set({ src: payload }),
-      setVolume: (payload) => set({ volume: payload }),
-      setProgress: (payload) => set({ progress: payload }),
-      setTotal: (payload) => set({ total: payload }),
+      setVolume: (payload) => {
+        if (audio) {
+          audio.volume = payload;
+        }
+      },
       addToPlayed: (payload) => set({ played: takeLast([...get().played, payload], 100) }),
       addToQueue: (payload) => {
         const { queue, nextTrack } = get();
@@ -112,12 +156,10 @@ export const usePlayerStore = create<State>()(
           nextTrack();
         }
       },
-      setQueue: (payload) => set({ queue: payload }),
       clearQueue: () => {
         set({ queue: [] });
         get().nextTrack();
       },
-      setPrev: (payload) => set({ prev: payload }),
     }),
     {
       name: 'player',

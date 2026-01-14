@@ -21,7 +21,12 @@ export const TrackCover = () => {
         className={clsx(styles.container, fullscreen && styles.fullscreen)}
         onClick={() => setFullscreen(!fullscreen)}
       >
-        {src && (!fullscreen ? <img alt="" src={`http://localhost:4445/cover?src=${src}`} /> : 'x')}
+        {src &&
+          (!fullscreen ? (
+            <img alt="" src={`http://localhost:4445/cover?src=${encodeURIComponent(src)}`} />
+          ) : (
+            'x'
+          ))}
       </button>
     </>
   );

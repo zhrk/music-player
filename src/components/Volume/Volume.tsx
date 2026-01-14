@@ -9,10 +9,9 @@ const step = 0.01;
 const wheelStep = 5;
 
 export const Volume = () => {
-  const { volume, setVolume, element } = usePlayerStore((state) => ({
+  const { volume, setVolume } = usePlayerStore((state) => ({
     volume: state.volume,
     setVolume: state.setVolume,
-    element: state.element,
   }));
 
   return (
@@ -28,8 +27,6 @@ export const Volume = () => {
           const value = Number(event.target.value);
 
           setVolume(value);
-
-          if (element) element.volume = value;
         }}
         onWheel={(event) => {
           const direction = event.deltaY < 0 ? 1 : -1;
@@ -39,8 +36,6 @@ export const Volume = () => {
           const value = normalize(clamped);
 
           setVolume(value);
-
-          if (element) element.volume = value;
         }}
       />
       <div className={styles.value}>{normalize(volume * 100)}</div>

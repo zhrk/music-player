@@ -5,8 +5,8 @@ import { beautifyTrackName } from '../../utils/beautifyTrackName';
 import styles from './styles.module.scss';
 
 export const TrackInfo = () => {
-  const { src } = usePlayerStore((state) => ({ src: state.src }));
-  const { rootPath } = useFilesStore((state) => ({ rootPath: state.rootPath }));
+  const src = usePlayerStore((state) => state.src);
+  const rootPath = useFilesStore((state) => state.rootPath);
 
   if (!rootPath) return null;
 

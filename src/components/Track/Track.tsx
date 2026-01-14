@@ -10,20 +10,14 @@ export const Track = (props: { data: Files['files'][number] }) => {
 
   const { name, type, path, children } = data;
 
-  const element = usePlayerStore((state) => state.element);
   const setSrc = usePlayerStore((state) => state.setSrc);
   const addToQueue = usePlayerStore((state) => state.addToQueue);
+  const togglePlayPause = usePlayerStore((state) => state.togglePlayPause);
 
   const src = useStoreWithEqualityFn(
     usePlayerStore,
     (state) => state.src,
     (prev, next) => !(path === prev || path === next)
-  );
-
-  const playing = useStoreWithEqualityFn(
-    usePlayerStore,
-    (state) => state.playing,
-    () => path !== src
   );
 
   const prevSrc = usePrevious(src);
@@ -41,13 +35,7 @@ export const Track = (props: { data: Files['files'][number] }) => {
           type="button"
           onClick={() => {
             if (path === src) {
-              if (element) {
-                if (playing) {
-                  element.pause();
-                } else {
-                  element.play();
-                }
-              }
+              togglePlayPause();
             } else {
               setSrc(path);
             }

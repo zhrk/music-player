@@ -24,7 +24,7 @@ export const Fullscreen = () => {
         </button>
         <img
           alt=""
-          src={`http://localhost:4445/cover?src=${src}`}
+          src={`http://localhost:4445/cover?src=${encodeURIComponent(src)}`}
           onLoad={(e) => {
             const averageColor = getAverageColor(e.currentTarget);
 

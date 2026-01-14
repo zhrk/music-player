@@ -11,10 +11,10 @@ const formatDuration = (seconds: number) => {
 };
 
 export const Progress = () => {
-  const { progress, total, element } = usePlayerStore((state) => ({
+  const { progress, total, seek } = usePlayerStore((state) => ({
     progress: state.progress,
     total: state.total,
-    element: state.element,
+    seek: state.seek,
   }));
 
   return (
@@ -26,11 +26,7 @@ export const Progress = () => {
         step={1}
         value={progress}
         className={styles.progress}
-        onChange={(event) => {
-          if (element) {
-            element.currentTime = Number(event.target.value);
-          }
-        }}
+        onChange={(event) => seek(Number(event.target.value))}
       />
       <span className={styles.time}>
         {`${formatDuration(progress)} / ${formatDuration(total)}`}
