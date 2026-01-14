@@ -68,6 +68,10 @@ export const usePlayerStore = create<State>()(
           audio.addEventListener('volumechange', () => {
             if (audio) set({ volume: audio.volume });
           });
+
+          audio.addEventListener('canplay', () => {
+            if (audio) audio.play();
+          });
         }
 
         if (audio && payload) {
@@ -110,8 +114,6 @@ export const usePlayerStore = create<State>()(
             addToPlayed(randomTrack);
           }
         }
-
-        if (audio) audio.play();
       },
       prevTrack: () => {
         const { src, played, setSrc } = get();
@@ -131,8 +133,6 @@ export const usePlayerStore = create<State>()(
               set({ prev });
             }
           }
-
-          if (audio) audio.play();
         }
       },
       seek: (payload) => {
