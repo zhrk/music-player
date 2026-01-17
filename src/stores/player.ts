@@ -19,16 +19,15 @@ interface State {
   volume: Volume;
   progress: Progress;
   total: Progress;
-  played: Tracks;
   queue: Tracks;
   prev: number;
-  setSrc: (payload: Src, play?: boolean) => void;
+  setSrc: (payload: { src: Src; play?: boolean }) => void;
   togglePlayPause: () => void;
   nextTrack: () => void;
   prevTrack: () => void;
+  playTrack: (src: Src) => void;
   seek: (payload: Progress) => void;
   setVolume: (payload: Volume) => void;
-  addToPlayed: (payload: Tracks[number]) => void;
   addToQueue: (payload: Tracks) => void;
   clearQueue: () => void;
 }
@@ -41,13 +40,14 @@ export const usePlayerStore = create<State>()(
       volume: 0.05,
       progress: 0,
       total: 0,
-      played: [],
       queue: [],
-      prev: -1,
-      setSrc: (payload, play = true) => {
+      prev: 0,
+      setSrc: (payload) => {
+        const { src, play = true } = payload;
+
         const { volume, nextTrack } = get();
 
-        set({ src: payload });
+        set({ src });
 
         if (!audio) {
           audio = new Audio();
@@ -70,8 +70,8 @@ export const usePlayerStore = create<State>()(
           });
         }
 
-        if (audio && payload) {
-          audio.src = `file:///${encodePath(payload)}`;
+        if (audio && src) {
+          audio.src = `file:///${encodePath(src)}`;
         }
 
         if (play) audio.play();
@@ -85,51 +85,54 @@ export const usePlayerStore = create<State>()(
           }
         }
       },
+      playTrack: (payload) => {
+        const { queue, prev, setSrc } = get();
+
+        if (payload) {
+          setSrc({ src: payload });
+          set({ prev: 0, queue: [...queue.slice(0, prev), payload] });
+        }
+      },
       nextTrack: () => {
-        const { played, prev, queue, addToPlayed, nextTrack, setSrc } = get();
+        const { prev, queue, setSrc } = get();
         const { flatFiles } = useFilesStore.getState();
 
-        if (prev < -1) {
-          const src = played.at(prev + 1);
+        const filesPaths = flatFiles.map((file) => file.path);
+        const available = filesPaths.filter((path) => !queue.includes(path));
 
-          if (src) {
-            setSrc(src);
-            set({ prev: prev + 1 });
+        const files = available.length
+          ? available
+          : filesPaths.filter((path) => path !== get().src);
+
+        const randomTrack = files.at(Math.floor(Math.random() * files.length));
+
+        if (!prev) {
+          if (randomTrack) {
+            const temp = takeLast([...queue, randomTrack], 100);
+
+            set({ queue: temp });
+            setSrc({ src: temp[temp.length - 1] });
           }
-        } else if (queue.length) {
-          const [queueTrack, ...rest] = queue;
-
-          setSrc(queueTrack);
-          set({ queue: rest });
-          addToPlayed(queueTrack);
         } else {
-          const randomTrack = flatFiles[Math.floor(Math.random() * flatFiles.length)].path;
-
-          if (played.includes(randomTrack)) {
-            nextTrack();
-          } else {
-            setSrc(randomTrack);
-            addToPlayed(randomTrack);
-          }
+          setSrc({ src: queue[queue.length - 1 + prev + 1] });
+          set({ prev: prev + 1 });
         }
       },
       prevTrack: () => {
-        const { src, played, setSrc } = get();
+        const { queue, setSrc } = get();
 
-        if (played.length) {
-          let prev = get().prev;
+        if (queue.length === 1) {
+          setSrc({ src: queue[0] });
+        }
 
-          if (Math.abs(prev) !== played.length && src) {
-            prev = prev - 1;
+        if (queue.length > 1) {
+          const prev = get().prev - 1;
 
-            if (prev === -1) prev = -2;
+          const src = queue.at(prev - 1);
 
-            const prevSrc = played.at(prev);
-
-            if (prevSrc) {
-              setSrc(prevSrc);
-              set({ prev });
-            }
+          if (src) {
+            set({ prev });
+            setSrc({ src });
           }
         }
       },
@@ -143,29 +146,31 @@ export const usePlayerStore = create<State>()(
           audio.volume = payload;
         }
       },
-      addToPlayed: (payload) => set({ played: takeLast([...get().played, payload], 100) }),
       addToQueue: (payload) => {
-        const { queue, nextTrack } = get();
+        const { prev, nextTrack } = get();
 
-        if (queue.length) {
-          set({ queue: [...queue, ...payload] });
+        const queue = get().queue.toReversed();
+
+        if (prev) {
+          set({ queue: [...get().queue, ...payload], prev: prev - payload.length });
         } else {
-          set({ queue: payload });
+          set({ queue: [...queue.toReversed(), ...payload], prev: -payload.length });
           nextTrack();
         }
       },
       clearQueue: () => {
-        set({ queue: [] });
-        get().nextTrack();
+        const { queue, prev } = get();
+
+        set({ queue: queue.slice(0, prev), prev: 0 });
       },
     }),
     {
       name: 'player',
-      partialize: (state) => ({ played: state.played, queue: state.queue, prev: state.prev }),
+      partialize: (state) => ({ queue: state.queue, prev: state.prev }),
       onRehydrateStorage: () => (state) => {
-        const src = state?.played.at(state.prev);
+        const src = state?.queue.toReversed().at(state.prev);
 
-        if (src) state?.setSrc(src, false);
+        if (src) state?.setSrc({ src, play: false });
       },
     }
   ),

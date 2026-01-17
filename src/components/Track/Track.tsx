@@ -10,9 +10,9 @@ export const Track = (props: { data: Files['files'][number] }) => {
 
   const { name, type, path, children } = data;
 
-  const setSrc = usePlayerStore((state) => state.setSrc);
   const addToQueue = usePlayerStore((state) => state.addToQueue);
   const togglePlayPause = usePlayerStore((state) => state.togglePlayPause);
+  const playTrack = usePlayerStore((state) => state.playTrack);
 
   const src = useStoreWithEqualityFn(
     usePlayerStore,
@@ -37,7 +37,7 @@ export const Track = (props: { data: Files['files'][number] }) => {
             if (path === src) {
               togglePlayPause();
             } else {
-              setSrc(path);
+              playTrack(path);
             }
           }}
         >

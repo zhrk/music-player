@@ -2,10 +2,11 @@ import { usePlayerStore } from '../../stores/player';
 import styles from './styles.module.scss';
 
 export const TitleBar = () => {
-  const { queue, clearQueue } = usePlayerStore((state) => ({
-    queue: state.queue,
-    clearQueue: state.clearQueue,
-  }));
+  let queue = usePlayerStore((state) => state.queue);
+  const prev = usePlayerStore((state) => state.prev);
+  const clearQueue = usePlayerStore((state) => state.clearQueue);
+
+  queue = prev ? queue.slice(prev) : [];
 
   return (
     <div className={styles.container}>
