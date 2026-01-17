@@ -47,7 +47,7 @@ if (!gotTheLock) {
       height: HEIGHT,
       webPreferences: {
         preload: path.join(__dirname, 'preload.js'),
-        devTools: isDev,
+        devTools: true,
         webSecurity: false,
       },
       backgroundColor: BG_COLOR,
