@@ -8,15 +8,13 @@ type Files = {
 interface Window {
   electron: {
     getFiles: () => Promise<{ files: Files; flatFiles: Files; rootPath: string }>;
+    minimize: () => void;
+    maximize: () => void;
+    close: () => void;
+    openFind: (callback: () => void) => void;
+    find: (text: string, forward?: boolean) => void;
     onThumbarClick: (callback: (payload: 'next' | 'prev' | 'play' | 'pause') => void) => void;
     setPlaying: (playing: boolean) => void;
-    app: {
-      minimize: () => void;
-      maximize: () => void;
-      close: () => void;
-      openFind: (callback: () => void) => void;
-      find: (text: string, forward?: boolean) => void;
-    };
   };
 }
 

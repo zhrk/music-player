@@ -21,18 +21,18 @@ export const TitleBar = () => {
         <button
           type="button"
           className={styles.minimize}
-          onClick={() => window.electron.app.minimize()}
+          onClick={() => window.electron.minimize()}
         >
           <div />
         </button>
         <button
           type="button"
           className={styles.maximize}
-          onClick={() => window.electron.app.maximize()}
+          onClick={() => window.electron.maximize()}
         >
           <div />
         </button>
-        <button type="button" className={styles.close} onClick={() => window.electron.app.close()}>
+        <button type="button" className={styles.close} onClick={() => window.electron.close()}>
           <div />
           <div />
         </button>

@@ -67,27 +67,22 @@ if (!gotTheLock) {
       return files;
     };
 
-    ipcMain.on('app', (_, action, meta) => {
-      if (action === 'minimize') win.minimize();
+    ipcMain.on('minimize', () => win.minimize());
+    ipcMain.on('close', () => win.close());
 
-      if (action === 'maximize') {
-        if (win.isMaximized()) {
-          win.unmaximize();
-        } else {
-          win.maximize();
-        }
+    ipcMain.on('maximize', () => {
+      if (win.isMaximized()) {
+        win.unmaximize();
+      } else {
+        win.maximize();
       }
+    });
 
-      if (action === 'close') win.close();
-
-      if (action === 'find') {
-        const { text, forward } = meta;
-
-        if (text) {
-          win.webContents.findInPage(text, { forward });
-        } else {
-          win.webContents.stopFindInPage('clearSelection');
-        }
+    ipcMain.on('find', ({ text, forward }) => {
+      if (text) {
+        win.webContents.findInPage(text, { forward });
+      } else {
+        win.webContents.stopFindInPage('clearSelection');
       }
     });
 

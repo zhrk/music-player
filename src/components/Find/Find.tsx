@@ -5,10 +5,10 @@ export const Find = () => (
     type="text"
     autoFocus
     className={styles.find}
-    onChange={(event) => window.electron.app.find(event.currentTarget.value)}
+    onChange={(event) => window.electron.find(event.currentTarget.value)}
     onKeyDown={(event) => {
       if (event.key === 'Enter') {
-        window.electron.app.find(event.currentTarget.value, !event.shiftKey);
+        window.electron.find(event.currentTarget.value, !event.shiftKey);
       }
 
       if (event.key === 'Escape') {
