@@ -5,6 +5,7 @@ const { APP_PATH, APP_URL, BG_COLOR, HEIGHT, isDev, WIDTH } = require('./app');
 const getFiles = require('./getFiles');
 const { setMenu } = require('./menu');
 const server = require('./server');
+const { setThumbar } = require('./thumbar');
 
 if (!isDev) {
   log.initialize();
@@ -93,6 +94,7 @@ if (!gotTheLock) {
     ipcMain.handle('getFiles', handleGetFiles);
 
     setMenu(win);
+    setThumbar(win);
   });
 }
 

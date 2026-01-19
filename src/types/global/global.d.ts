@@ -8,6 +8,8 @@ type Files = {
 interface Window {
   electron: {
     getFiles: () => Promise<{ files: Files; flatFiles: Files; rootPath: string }>;
+    onThumbarClick: (callback: (payload: 'next' | 'prev' | 'play' | 'pause') => void) => void;
+    setPlaying: (playing: boolean) => void;
     app: {
       minimize: () => void;
       maximize: () => void;

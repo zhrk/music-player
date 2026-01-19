@@ -11,6 +11,7 @@ https://css-tip.com/element-index/
 возможность открыть картинку на весь экран и скопировать
 cover object fit cover обрезает
 убрать из body код для data-controls
+https://www.svgrepo.com/collection/solar-bold-icons/
 ```
 
 </details>
