@@ -6,12 +6,10 @@ import { Fullscreen } from '../Fullscreen';
 import styles from './styles.module.scss';
 
 export const TrackCover = () => {
-  const { src } = usePlayerStore((state) => ({ src: state.src }));
+  const src = usePlayerStore((state) => state.src);
 
-  const { fullscreen, setFullscreen } = useAppStore((state) => ({
-    fullscreen: state.fullscreen,
-    setFullscreen: state.setFullscreen,
-  }));
+  const fullscreen = useAppStore((state) => state.fullscreen);
+  const setFullscreen = useAppStore((state) => state.setFullscreen);
 
   return (
     <>
@@ -21,12 +19,7 @@ export const TrackCover = () => {
         className={clsx(styles.container, fullscreen && styles.fullscreen)}
         onClick={() => setFullscreen(!fullscreen)}
       >
-        {src &&
-          (!fullscreen ? (
-            <img alt="" src={`http://localhost:4445/cover?src=${encodeURIComponent(src)}`} />
-          ) : (
-            'x'
-          ))}
+        {src && <img alt="" src={`http://localhost:4445/cover?src=${encodeURIComponent(src)}`} />}
       </button>
     </>
   );

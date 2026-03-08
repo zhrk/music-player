@@ -1,3 +1,5 @@
+$safe_padding: 64px;
+
 .container {
   position: fixed;
   inset: 0;
@@ -17,6 +19,28 @@
   }
 }
 
+.wrapper {
+  position: relative;
+  padding: $safe_padding;
+  display: flex;
+  flex-direction: column;
+
+  &:hover {
+    & .cover > button,
+    & .inner > div:last-child,
+    & .buttons {
+      opacity: 1;
+    }
+  }
+}
+
+.inner {
+  position: relative;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
 .cover {
   position: relative;
   width: 400px;
@@ -34,7 +58,6 @@
   & > button {
     position: absolute;
     top: 16px;
-    right: 16px;
     width: 32px;
     height: 32px;
     display: flex;
@@ -49,8 +72,46 @@
       fill: var(--white);
     }
   }
+}
 
-  &:hover > button {
-    opacity: 1;
+.close {
+  left: 16px;
+}
+
+.maximize {
+  right: 16px;
+}
+
+.buttons {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  transform: translateY(calc(100% + 8px - $safe_padding));
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  column-gap: 4px;
+  opacity: 0;
+  transition: all 0.2s ease-in-out;
+
+  & > button {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    & > svg {
+      width: 16px;
+      height: 16px;
+      fill: var(--white);
+    }
+
+    &:hover {
+      & > svg {
+        fill: var(--dark-3);
+      }
+    }
   }
 }

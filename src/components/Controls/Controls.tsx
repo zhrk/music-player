@@ -1,9 +1,7 @@
-import clsx from 'clsx';
 import PauseIcon from '../../static/icons/pause.svg';
 import PlayIcon from '../../static/icons/play.svg';
 import SkipNextIcon from '../../static/icons/skip-next.svg';
 import SkipPreviousIcon from '../../static/icons/skip-previous.svg';
-import { useAppStore } from '../../stores/app';
 import { usePlayerStore } from '../../stores/player';
 import { Progress } from '../Progress';
 import { TrackCover } from '../TrackCover';
@@ -12,18 +10,14 @@ import { Volume } from '../Volume';
 import styles from './styles.module.scss';
 
 export const Controls = () => {
-  const { fullscreen } = useAppStore((state) => ({ fullscreen: state.fullscreen }));
-
-  const { src, playing, nextTrack, prevTrack, togglePlayPause } = usePlayerStore((state) => ({
-    src: state.src,
-    playing: state.playing,
-    nextTrack: state.nextTrack,
-    prevTrack: state.prevTrack,
-    togglePlayPause: state.togglePlayPause,
-  }));
+  const src = usePlayerStore((state) => state.src);
+  const playing = usePlayerStore((state) => state.playing);
+  const nextTrack = usePlayerStore((state) => state.nextTrack);
+  const prevTrack = usePlayerStore((state) => state.prevTrack);
+  const togglePlayPause = usePlayerStore((state) => state.togglePlayPause);
 
   return (
-    <div data-controls className={clsx(styles.container, fullscreen && styles.fullscreen)}>
+    <div className={styles.container}>
       <Progress />
       <div className={styles.wrapper}>
         <TrackCover />

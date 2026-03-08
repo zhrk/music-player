@@ -1,9 +1,19 @@
-.container {
+.container:not(.fullscreen) {
   position: relative;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+
+.container.fullscreen {
+  position: absolute;
+  transform: rotate(-90deg);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  transition: all 0.2s ease-in-out;
 }
 
 .volume {
@@ -12,18 +22,19 @@
   appearance: none;
   overflow: hidden;
   cursor: pointer;
+  --height: 6px;
 
   &::-webkit-slider-runnable-track {
-    height: 6px;
+    height: var(--height);
     background: var(--dark-2);
   }
 
   &::-webkit-slider-thumb {
     width: 0;
-    height: 12px;
+    height: calc(var(--height) * 2);
     appearance: none;
-    border-image: linear-gradient(90deg, var(--white) 50%, var(--dark-2) 0) 0 1 / calc(50% - 6px)
-      100vw/0 100vw;
+    border-image: linear-gradient(90deg, var(--white) 50%, var(--dark-2) 0) 0 1 /
+      calc(50% - var(--height)) 100vw/0 100vw;
   }
 
   &:hover {
@@ -33,9 +44,22 @@
   }
 }
 
+.volume.fullscreen {
+  position: absolute;
+  transform: translateY(150%);
+  width: 300px;
+  border-radius: 6px;
+  --height: 12px;
+}
+
 .value {
   position: absolute;
   transform: translateY(-100%);
   display: none;
   transition: all 0.2s ease-in-out;
+}
+
+.value.fullscreen {
+  transform: rotate(90deg) translateX(calc(300% + 4px));
+  width: 12px;
 }

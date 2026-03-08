@@ -1,12 +1,24 @@
 import clsx from 'clsx';
 import { useState } from 'react';
 import IconMaximize from '../../static/icons/maximize.svg';
+import PauseIcon from '../../static/icons/pause.svg';
+import PlayIcon from '../../static/icons/play.svg';
+import SkipNextIcon from '../../static/icons/skip-next.svg';
+import SkipPreviousIcon from '../../static/icons/skip-previous.svg';
+import { useAppStore } from '../../stores/app';
 import { usePlayerStore } from '../../stores/player';
 import { getAverageColor } from '../../utils/getAverageColor';
+import { Volume } from '../Volume';
 import styles from './styles.module.scss';
 
 export const Fullscreen = () => {
-  const { src } = usePlayerStore((state) => ({ src: state.src }));
+  const setFullscreen = useAppStore((state) => state.setFullscreen);
+
+  const src = usePlayerStore((state) => state.src);
+  const playing = usePlayerStore((state) => state.playing);
+  const nextTrack = usePlayerStore((state) => state.nextTrack);
+  const prevTrack = usePlayerStore((state) => state.prevTrack);
+  const togglePlayPause = usePlayerStore((state) => state.togglePlayPause);
 
   const [maximized, setMaximized] = useState(false);
   const [color, setColor] = useState<string | null>(null);
@@ -18,19 +30,42 @@ export const Fullscreen = () => {
       className={clsx(styles.container, maximized && styles.maximized)}
       {...(color && { style: { backgroundColor: color } })}
     >
-      <div className={styles.cover}>
-        <button type="button" onClick={() => setMaximized((prev) => !prev)}>
-          <IconMaximize />
-        </button>
-        <img
-          alt=""
-          src={`http://localhost:4445/cover?src=${encodeURIComponent(src)}`}
-          onLoad={(e) => {
-            const averageColor = getAverageColor(e.currentTarget);
+      <div className={styles.wrapper}>
+        <div className={styles.inner}>
+          <div className={styles.cover}>
+            <button type="button" className={styles.close} onClick={() => setFullscreen(false)}>
+              x
+            </button>
+            <button
+              type="button"
+              className={styles.maximize}
+              onClick={() => setMaximized((prev) => !prev)}
+            >
+              <IconMaximize />
+            </button>
+            <img
+              alt=""
+              src={`http://localhost:4445/cover?src=${encodeURIComponent(src)}`}
+              onLoad={(e) => {
+                const averageColor = getAverageColor(e.currentTarget);
 
-            if (averageColor) setColor(averageColor);
-          }}
-        />
+                if (averageColor) setColor(averageColor);
+              }}
+            />
+          </div>
+          {!maximized && <Volume fullscreen />}
+        </div>
+        <div className={styles.buttons}>
+          <button type="button" onClick={prevTrack}>
+            <SkipPreviousIcon />
+          </button>
+          <button type="button" disabled={!src} onClick={togglePlayPause}>
+            {playing ? <PauseIcon /> : <PlayIcon />}
+          </button>
+          <button type="button" onClick={nextTrack}>
+            <SkipNextIcon />
+          </button>
+        </div>
       </div>
     </div>
   );

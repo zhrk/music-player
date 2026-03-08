@@ -8,16 +8,6 @@
   box-sizing: border-box;
 }
 
-.container.fullscreen {
-  z-index: 1;
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  background-color: var(--bg);
-  opacity: 0;
-}
-
 .wrapper {
   min-width: 0;
   display: flex;
@@ -48,7 +38,7 @@
     & > svg {
       width: 16px;
       height: 16px;
-      fill: #fff;
+      fill: var(--white);
     }
 
     &:hover {

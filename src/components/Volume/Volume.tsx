@@ -1,3 +1,4 @@
+import { clsx } from 'clsx';
 import { usePlayerStore } from '../../stores/player';
 import styles from './styles.module.scss';
 
@@ -8,21 +9,25 @@ const max = 1;
 const step = 0.01;
 const wheelStep = 5;
 
-export const Volume = () => {
-  const { volume, setVolume } = usePlayerStore((state) => ({
-    volume: state.volume,
-    setVolume: state.setVolume,
-  }));
+interface Props {
+  fullscreen?: boolean;
+}
+
+export const Volume = (props: Props) => {
+  const { fullscreen } = props;
+
+  const volume = usePlayerStore((state) => state.volume);
+  const setVolume = usePlayerStore((state) => state.setVolume);
 
   return (
-    <div className={styles.container}>
+    <div className={clsx(styles.container, fullscreen && styles.fullscreen)}>
       <input
         type="range"
         min={min}
         max={max}
         step={step}
         value={volume}
-        className={styles.volume}
+        className={clsx(styles.volume, fullscreen && styles.fullscreen)}
         onChange={(event) => {
           const value = Number(event.target.value);
 
@@ -38,7 +43,9 @@ export const Volume = () => {
           setVolume(value);
         }}
       />
-      <div className={styles.value}>{normalize(volume * 100)}</div>
+      <div className={clsx(styles.value, fullscreen && styles.fullscreen)}>
+        {normalize(volume * 100)}
+      </div>
     </div>
   );
 };
