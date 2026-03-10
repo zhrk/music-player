@@ -8,6 +8,7 @@ import SkipPreviousIcon from '../../static/icons/skip-previous.svg';
 import { useAppStore } from '../../stores/app';
 import { usePlayerStore } from '../../stores/player';
 import { getAverageColor } from '../../utils/getAverageColor';
+import { TrackInfo } from '../TrackInfo';
 import { Volume } from '../Volume';
 import styles from './styles.module.scss';
 
@@ -32,6 +33,7 @@ export const Fullscreen = () => {
     >
       <div className={styles.wrapper}>
         <div className={styles.inner}>
+          <TrackInfo fullscreen />
           <div className={styles.cover}>
             <button type="button" className={styles.close} onClick={() => setFullscreen(false)}>
               x

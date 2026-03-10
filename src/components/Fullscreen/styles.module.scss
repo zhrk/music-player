@@ -27,6 +27,7 @@ $safe_padding: 64px;
 
   &:hover {
     & .cover > button,
+    & .inner > div:first-child,
     & .inner > div:last-child,
     & .buttons {
       opacity: 1;
@@ -37,7 +38,8 @@ $safe_padding: 64px;
 .inner {
   position: relative;
   display: flex;
-  justify-content: flex-end;
+  flex-direction: column;
+  justify-content: center;
   align-items: center;
 }
 

@@ -1,4 +1,4 @@
-.container {
+.container:not(.fullscreen) {
   margin-left: 8px;
   width: calc(50% - 57px); //  57 = control buttons width / 2
   display: flex;
@@ -10,6 +10,23 @@
     white-space: nowrap;
     overflow: hidden;
   }
+
+  & > span:last-child {
+    color: var(--dark-3);
+    font-size: 12px;
+  }
+}
+
+.container.fullscreen {
+  position: absolute;
+  top: 0;
+  transform: translateY(calc(-100% - 8px));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  row-gap: 2px;
+  opacity: 0;
+  transition: all 0.2s ease-in-out;
 
   & > span:last-child {
     color: var(--dark-3);

@@ -1,10 +1,17 @@
+import { clsx } from 'clsx';
 import { splitAt } from 'remeda';
 import { useFilesStore } from '../../stores/files';
 import { usePlayerStore } from '../../stores/player';
 import { beautifyTrackName } from '../../utils/beautifyTrackName';
 import styles from './styles.module.scss';
 
-export const TrackInfo = () => {
+interface Props {
+  fullscreen?: boolean;
+}
+
+export const TrackInfo = (props: Props) => {
+  const { fullscreen } = props;
+
   const src = usePlayerStore((state) => state.src);
   const rootPath = useFilesStore((state) => state.rootPath);
 
@@ -20,7 +27,7 @@ export const TrackInfo = () => {
   const other = rawOther.join(' - ');
 
   return (
-    <div className={styles.container}>
+    <div className={clsx(styles.container, fullscreen && styles.fullscreen)}>
       <span title={name}>{name}</span>
       <span title={other}>{other}</span>
     </div>
