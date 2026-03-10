@@ -1,6 +1,5 @@
 import clsx from 'clsx';
 import { useState } from 'react';
-import IconMaximize from '../../static/icons/maximize.svg';
 import PauseIcon from '../../static/icons/pause.svg';
 import PlayIcon from '../../static/icons/play.svg';
 import SkipNextIcon from '../../static/icons/skip-next.svg';
@@ -33,18 +32,13 @@ export const Fullscreen = () => {
     >
       <div className={styles.wrapper}>
         <div className={styles.inner}>
-          <TrackInfo fullscreen />
-          <div className={styles.cover}>
-            <button type="button" className={styles.close} onClick={() => setFullscreen(false)}>
-              x
-            </button>
-            <button
-              type="button"
-              className={styles.maximize}
-              onClick={() => setMaximized((prev) => !prev)}
-            >
-              <IconMaximize />
-            </button>
+          {!maximized && <TrackInfo fullscreen />}
+          <button
+            type="button"
+            className={styles.cover}
+            onContextMenu={() => setFullscreen(false)}
+            onClick={() => setMaximized((prev) => !prev)}
+          >
             <img
               alt=""
               src={`http://localhost:4445/cover?src=${encodeURIComponent(src)}`}
@@ -54,20 +48,22 @@ export const Fullscreen = () => {
                 if (averageColor) setColor(averageColor);
               }}
             />
-          </div>
+          </button>
           {!maximized && <Volume fullscreen />}
         </div>
-        <div className={styles.buttons}>
-          <button type="button" onClick={prevTrack}>
-            <SkipPreviousIcon />
-          </button>
-          <button type="button" disabled={!src} onClick={togglePlayPause}>
-            {playing ? <PauseIcon /> : <PlayIcon />}
-          </button>
-          <button type="button" onClick={nextTrack}>
-            <SkipNextIcon />
-          </button>
-        </div>
+        {!maximized && (
+          <div className={styles.buttons}>
+            <button type="button" onClick={prevTrack}>
+              <SkipPreviousIcon />
+            </button>
+            <button type="button" disabled={!src} onClick={togglePlayPause}>
+              {playing ? <PauseIcon /> : <PlayIcon />}
+            </button>
+            <button type="button" onClick={nextTrack}>
+              <SkipNextIcon />
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );
