@@ -28,6 +28,10 @@
   opacity: 0;
   transition: all 0.2s ease-in-out;
 
+  & > span:first-child {
+    white-space: nowrap;
+  }
+
   & > span:last-child {
     color: var(--dark-3);
     font-size: 12px;
